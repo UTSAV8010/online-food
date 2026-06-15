@@ -1,34 +1,25 @@
-
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Output Buffering
-|--------------------------------------------------------------------------
-*/
+// Starting the Session
 ob_start();
 
-/*
-|--------------------------------------------------------------------------
-| Session Configuration
-|--------------------------------------------------------------------------
-*/
 $sessionLifetime = 60 * 60 * 24; // 24 hours
-$secureCookie = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+$secureCookie = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 
 $cookieParams = session_get_cookie_params();
-
-session_set_cookie_params([
+$cookieParams = array(
     'lifetime' => $sessionLifetime,
-    'path'     => $cookieParams['path'] ?? '/',
-    'domain'   => $cookieParams['domain'] ?? '',
-    'secure'   => $secureCookie,
+    'path' => $cookieParams['path'] ?? '/',
+    'domain' => $cookieParams['domain'] ?? '',
+    'secure' => $secureCookie,
     'httponly' => true,
     'samesite' => 'Lax',
-]);
+);
 
-ini_set('session.gc_maxlifetime', (string)$sessionLifetime);
-ini_set('session.cookie_lifetime', (string)$sessionLifetime);
+ini_set('session.gc_maxlifetime', (string) $sessionLifetime);
+ini_set('session.cookie_lifetime', (string) $sessionLifetime);
+
+session_set_cookie_params($cookieParams);
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -36,30 +27,35 @@ if (session_status() === PHP_SESSION_NONE) {
 
 /*
 |--------------------------------------------------------------------------
-| Site URL
+| Site URL Configuration
 |--------------------------------------------------------------------------
+|
+| Localhost:
+| define('SITEURL', 'http://localhost/r-management/');
+|
+| Render:
+|
 */
-define(
-    'SITEURL',
-    getenv('SITEURL') ?: 'https://online-food-ordering-tn7s.onrender.com/'
-);
+
+define('SITEURL', 'https://online-food-ordering-tn7s.onrender.com/');
 
 /*
 |--------------------------------------------------------------------------
-| Database Configuration
+| Railway Database Configuration
 |--------------------------------------------------------------------------
-| Use Railway Public Networking credentials.
-| Set these variables in Render Environment Variables.
-|--------------------------------------------------------------------------
+|
+| IMPORTANT:
+| If Render cannot connect using mysql.railway.internal,
+| replace LOCALHOST with your Railway public host.
+|
 */
 
-define('DB_HOST', getenv('MYSQLHOST') ?: 'YOUR_RAILWAY_PUBLIC_HOST');
-define('DB_PORT', (int)(getenv('MYSQLPORT') ?: 3306));
+define('LOCALHOST', 'mysql.railway.internal');
+define('DB_PORT', 3306);
 
-define('DB_USERNAME', getenv('MYSQLUSER') ?: 'root');
-define('DB_PASSWORD', getenv('MYSQLPASSWORD') ?: 'YOUR_DATABASE_PASSWORD');
-
-define('DB_NAME', getenv('MYSQLDATABASE') ?: 'railway');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC');
+define('DB_NAME', 'railway');
 
 /*
 |--------------------------------------------------------------------------
@@ -67,35 +63,17 @@ define('DB_NAME', getenv('MYSQLDATABASE') ?: 'railway');
 |--------------------------------------------------------------------------
 */
 
-define('MAIL_HOST', getenv('MAIL_HOST') ?: 'smtp.gmail.com');
-define('MAIL_PORT', (int)(getenv('MAIL_PORT') ?: 587));
+define('MAIL_HOST', 'smtp.gmail.com');
+define('MAIL_PORT', 587);
+define('MAIL_ENCRYPTION', 'tls');
 
-define('MAIL_ENCRYPTION', getenv('MAIL_ENCRYPTION') ?: 'tls');
+define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
+define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
 
-define(
-    'MAIL_USERNAME',
-    getenv('MAIL_USERNAME') ?: 'your-email@gmail.com'
-);
+define('MAIL_FROM_EMAIL', 'utsavsarvaliya27@gmail.com');
+define('MAIL_FROM_NAME', 'Pasar-kita');
 
-define(
-    'MAIL_PASSWORD',
-    getenv('MAIL_PASSWORD') ?: 'your-app-password'
-);
-
-define(
-    'MAIL_FROM_EMAIL',
-    getenv('MAIL_FROM_EMAIL') ?: 'your-email@gmail.com'
-);
-
-define(
-    'MAIL_FROM_NAME',
-    getenv('MAIL_FROM_NAME') ?: 'Pasar-kita'
-);
-
-define(
-    'MAIL_REPLY_TO_EMAIL',
-    getenv('MAIL_REPLY_TO_EMAIL') ?: 'your-email@gmail.com'
-);
+define('MAIL_REPLY_TO_EMAIL', 'utsavsarvaliya27@gmail.com');
 
 define('MAIL_TIMEOUT', 20);
 define('MAIL_VERIFY_PEER', false);
@@ -107,6 +85,7 @@ define('APP_OTP_TTL_SECONDS', 60);
 | Inventory Settings
 |--------------------------------------------------------------------------
 */
+
 $low_stock_threshold = 3;
 
 /*
@@ -115,15 +94,8 @@ $low_stock_threshold = 3;
 |--------------------------------------------------------------------------
 */
 
-define(
-    'RECEIVE_UPI_ID',
-    getenv('RECEIVE_UPI_ID') ?: 'yourupi@oksbi'
-);
-
-define(
-    'RECEIVE_UPI_NAME',
-    getenv('RECEIVE_UPI_NAME') ?: 'Pasar-kita Online Foods'
-);
+define('RECEIVE_UPI_ID', 'utsavsarvaliya27@oksbi');
+define('RECEIVE_UPI_NAME', 'Pasar-kita Online Foods');
 
 /*
 |--------------------------------------------------------------------------
@@ -131,10 +103,7 @@ define(
 |--------------------------------------------------------------------------
 */
 
-define(
-    'GOOGLE_MAPS_API_KEY',
-    getenv('GOOGLE_MAPS_API_KEY') ?: ''
-);
+define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
 
 /*
 |--------------------------------------------------------------------------
@@ -142,10 +111,8 @@ define(
 |--------------------------------------------------------------------------
 */
 
-mysqli_report(MYSQLI_REPORT_OFF);
-
 $conn = mysqli_connect(
-    DB_HOST,
+    LOCALHOST,
     DB_USERNAME,
     DB_PASSWORD,
     DB_NAME,
@@ -153,13 +120,8 @@ $conn = mysqli_connect(
 );
 
 if (!$conn) {
-    die(
-        "Database Connection Failed: " .
-        mysqli_connect_error()
-    );
+    die("Database Connection Failed: " . mysqli_connect_error());
 }
-
-mysqli_set_charset($conn, 'utf8mb4');
 
 /*
 |--------------------------------------------------------------------------
@@ -167,10 +129,6 @@ mysqli_set_charset($conn, 'utf8mb4');
 |--------------------------------------------------------------------------
 */
 
-$mailFile = __DIR__ . '/mail.php';
+require_once __DIR__ . '/mail.php';
 
-if (file_exists($mailFile)) {
-    require_once $mailFile;
-}
 ?>
-
