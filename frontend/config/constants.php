@@ -1,30 +1,11 @@
-
 <?php
 ob_start();
 
-/*
-|--------------------------------------------------------------------------
-| SESSION CONFIGURATION
-|--------------------------------------------------------------------------
-*/
-
 if (session_status() === PHP_SESSION_NONE) {
-
-    $sessionLifetime = 60 * 60 * 24; // 24 hours
-
-    ini_set('session.gc_maxlifetime', (string)$sessionLifetime);
-    ini_set('session.cookie_lifetime', (string)$sessionLifetime);
-
-    session_set_cookie_params([
-        'lifetime' => $sessionLifetime,
-        'path'     => '/',
-        'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ]);
-
-    session_start();
+    @session_start();
 }
+
+
 
 /*
 |--------------------------------------------------------------------------
