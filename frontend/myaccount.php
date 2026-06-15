@@ -2,15 +2,14 @@
 
 <?php 
  date_default_timezone_set('Asia/Dhaka');
- if(!isset($_SESSION['user'])) //If user session is not set
-{
-    //User is not logged in
-    //Redirect to login page with message
+if (!isset($_SESSION['user'])) {
 
-    $_SESSION['no-login-message'] = "<div class='error'>Please login to access Admin Panel</div>";
-    header('location:'.SITEURL.'login.php');
+    $_SESSION['no-login-message'] =
+        "<div class='error'>Please login to access your account.</div>";
+
+    header('Location: ' . SITEURL . 'login.php');
+    exit();
 }
-
     if(isset($_SESSION['user']))
     {
        $username = $_SESSION['user'];
