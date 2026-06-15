@@ -1,11 +1,15 @@
 <?php
 ob_start();
 
+/*
+|--------------------------------------------------------------------------
+| SESSION
+|--------------------------------------------------------------------------
+*/
+
 if (session_status() === PHP_SESSION_NONE) {
     @session_start();
 }
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +21,7 @@ define('SITEURL', 'https://online-food-ordering-tn7s.onrender.com/');
 
 /*
 |--------------------------------------------------------------------------
-| DATABASE CONFIGURATION
+| DATABASE CONFIGURATION (RAILWAY)
 |--------------------------------------------------------------------------
 */
 
@@ -32,11 +36,15 @@ define('DB_NAME', 'railway');
 |--------------------------------------------------------------------------
 | SMTP CONFIGURATION
 |--------------------------------------------------------------------------
+|
+| Gmail SMTP may timeout on Render using raw sockets.
+| Keep these values if you still want to use mail.php.
+|
 */
 
 define('MAIL_HOST', 'smtp.gmail.com');
-define('MAIL_PORT', 465);
-define('MAIL_ENCRYPTION', 'ssl');
+define('MAIL_PORT', 587);
+define('MAIL_ENCRYPTION', 'tls');
 
 define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
 define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
@@ -46,7 +54,7 @@ define('MAIL_FROM_NAME', 'Pasar-kita');
 
 define('MAIL_REPLY_TO_EMAIL', MAIL_USERNAME);
 
-define('MAIL_TIMEOUT', 20);
+define('MAIL_TIMEOUT', 30);
 define('MAIL_VERIFY_PEER', false);
 
 define('APP_OTP_TTL_SECONDS', 60);
@@ -92,8 +100,8 @@ $conn = mysqli_connect(
 
 if (!$conn) {
     die(
-        'Database Connection Failed: ' .
-        mysqli_connect_error()
+        'Database Connection Failed: '
+        . mysqli_connect_error()
     );
 }
 
@@ -105,8 +113,8 @@ if (!$conn) {
 
 if (!mysqli_set_charset($conn, 'utf8mb4')) {
     die(
-        'Error setting charset: ' .
-        mysqli_error($conn)
+        'Error setting charset: '
+        . mysqli_error($conn)
     );
 }
 
