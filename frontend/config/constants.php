@@ -1,4 +1,4 @@
-```php
+
 <?php
 
 /*
@@ -173,4 +173,4 @@ if (file_exists($mailFile)) {
     require_once $mailFile;
 }
 ?>
-```
+
