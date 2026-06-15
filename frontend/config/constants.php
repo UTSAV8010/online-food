@@ -35,8 +35,8 @@ define('DB_NAME', 'railway');
 */
 
 define('MAIL_HOST', 'smtp.gmail.com');
-define('MAIL_PORT', 587);
-define('MAIL_ENCRYPTION', 'tls');
+define('MAIL_PORT', 465);
+define('MAIL_ENCRYPTION', 'ssl');
 
 define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
 define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
