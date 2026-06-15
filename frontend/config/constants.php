@@ -12,8 +12,8 @@ if (session_status() === PHP_SESSION_NONE) {
 
     $sessionLifetime = 60 * 60 * 24; // 24 hours
 
-    ini_set('session.gc_maxlifetime', $sessionLifetime);
-    ini_set('session.cookie_lifetime', $sessionLifetime);
+    ini_set('session.gc_maxlifetime', (string)$sessionLifetime);
+    ini_set('session.cookie_lifetime', (string)$sessionLifetime);
 
     session_set_cookie_params([
         'lifetime' => $sessionLifetime,
@@ -38,17 +38,13 @@ define('SITEURL', 'https://online-food-ordering-tn7s.onrender.com/');
 |--------------------------------------------------------------------------
 | DATABASE CONFIGURATION
 |--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| Replace these with your Railway PUBLIC database details.
-|
 */
 
-define('LOCALHOST', 'YOUR_RAILWAY_PUBLIC_HOST');
-define('DB_PORT', 3306);
+define('LOCALHOST', 'mainline.proxy.rlwy.net');
+define('DB_PORT', 22086);
 
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'YOUR_RAILWAY_PASSWORD');
+define('DB_PASSWORD', 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC');
 define('DB_NAME', 'railway');
 
 /*
@@ -62,7 +58,7 @@ define('MAIL_PORT', 587);
 define('MAIL_ENCRYPTION', 'tls');
 
 define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
-define('MAIL_PASSWORD', 'YOUR_GMAIL_APP_PASSWORD');
+define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
 
 define('MAIL_FROM_EMAIL', MAIL_USERNAME);
 define('MAIL_FROM_NAME', 'Pasar-kita');
@@ -97,7 +93,7 @@ define('RECEIVE_UPI_NAME', 'Pasar-kita Online Foods');
 |--------------------------------------------------------------------------
 */
 
-define('GOOGLE_MAPS_API_KEY', 'YOUR_GOOGLE_MAPS_API_KEY');
+define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
 
 /*
 |--------------------------------------------------------------------------
@@ -115,21 +111,21 @@ $conn = mysqli_connect(
 
 if (!$conn) {
     die(
-        '<h2>Database Connection Failed</h2>' .
-        '<p>' . mysqli_connect_error() . '</p>'
+        'Database Connection Failed: ' .
+        mysqli_connect_error()
     );
 }
 
 /*
 |--------------------------------------------------------------------------
-| DATABASE CHARSET
+| DATABASE CHARACTER SET
 |--------------------------------------------------------------------------
 */
 
 if (!mysqli_set_charset($conn, 'utf8mb4')) {
     die(
-        '<h2>Charset Error</h2>' .
-        '<p>' . mysqli_error($conn) . '</p>'
+        'Error setting charset: ' .
+        mysqli_error($conn)
     );
 }
 
