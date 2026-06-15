@@ -124,6 +124,8 @@ if (!mysqli_set_charset($conn, 'utf8mb4')) {
 |--------------------------------------------------------------------------
 */
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 $mailFile = __DIR__ . '/mail.php';
 
 if (file_exists($mailFile)) {
