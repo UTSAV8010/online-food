@@ -239,141 +239,236 @@ if (!function_exists('app_build_otp_email_text')) {
             . trim((string) $copy['ignore_body']) . "\n";
     }
 }
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 if (!function_exists('app_send_smtp_mail')) {
-    function app_send_smtp_mail(string $toEmail, string $subject, string $htmlBody, string $textBody = '', array $inlineAttachments = array()): array
-    {
-        if (!app_mail_is_configured()) {
-            return array(
-                'success' => false,
-                'error' => 'SMTP is not configured. Set MAIL_USERNAME, MAIL_PASSWORD, and MAIL_FROM_EMAIL in frontend/config/constants.php.',
-            );
-        }
 
-        $toEmail = app_sanitize_email($toEmail);
-        $fromEmail = app_sanitize_email(MAIL_FROM_EMAIL !== '' ? MAIL_FROM_EMAIL : MAIL_USERNAME);
-        $replyToEmail = app_sanitize_email(MAIL_REPLY_TO_EMAIL !== '' ? MAIL_REPLY_TO_EMAIL : $fromEmail);
-        $fromName = app_sanitize_header_value(MAIL_FROM_NAME);
-        $host = app_sanitize_header_value(MAIL_HOST);
-        $encryption = strtolower(trim((string) MAIL_ENCRYPTION));
-        $port = (int) MAIL_PORT;
-        $timeout = max(5, (int) MAIL_TIMEOUT);
+    function app_send_smtp_mail(
+        string $toEmail,
+        string $subject,
+        string $htmlBody,
+        string $textBody = '',
+        array $inlineAttachments = array()
+    ): array {
 
-        if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
-            return array('success' => false, 'error' => 'Recipient email address is invalid.');
-        }
+        try {
 
-        if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
-            return array('success' => false, 'error' => 'Sender email address is invalid. Check MAIL_FROM_EMAIL.');
-        }
+            $mail = new PHPMailer(true);
 
-        $remoteHost = ($encryption === 'ssl' ? 'ssl://' : 'tcp://') . $host . ':' . $port;
-        $socket = @stream_socket_client(
-            $remoteHost,
-            $errorNumber,
-            $errorString,
-            $timeout,
-            STREAM_CLIENT_CONNECT,
-            stream_context_create(array(
-                'ssl' => array(
+            $mail->isSMTP();
+
+            $mail->Host = MAIL_HOST;
+            $mail->SMTPAuth = true;
+            $mail->Username = MAIL_USERNAME;
+            $mail->Password = MAIL_PASSWORD;
+
+            if (MAIL_ENCRYPTION === 'ssl') {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            } else {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            }
+
+            $mail->Port = MAIL_PORT;
+            $mail->Timeout = MAIL_TIMEOUT;
+
+            $mail->SMTPOptions = [
+                'ssl' => [
                     'verify_peer' => MAIL_VERIFY_PEER,
                     'verify_peer_name' => MAIL_VERIFY_PEER,
                     'allow_self_signed' => !MAIL_VERIFY_PEER,
-                ),
-            ))
-        );
+                ]
+            ];
 
-        if ($socket === false) {
-            return array('success' => false, 'error' => 'SMTP connection failed: ' . trim((string) $errorString) . ' (' . (int) $errorNumber . ').');
-        }
+            $mail->setFrom(
+                MAIL_FROM_EMAIL,
+                MAIL_FROM_NAME
+            );
 
-        stream_set_timeout($socket, $timeout);
+            $mail->addReplyTo(
+                MAIL_REPLY_TO_EMAIL,
+                MAIL_FROM_NAME
+            );
 
-        $result = app_smtp_expect($socket, array(220), 'SMTP handshake');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
+            $mail->addAddress($toEmail);
 
-        $heloHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        $heloHost = preg_replace('/[^A-Za-z0-9.-]/', '', $heloHost);
-        if ($heloHost === '') {
-            $heloHost = 'localhost';
-        }
+            foreach ($inlineAttachments as $attachment) {
 
-        $result = app_smtp_command($socket, 'EHLO ' . $heloHost, array(250), 'EHLO');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
+                if (
+                    isset(
+                        $attachment['content'],
+                        $attachment['filename'],
+                        $attachment['content_type'],
+                        $attachment['cid']
+                    )
+                ) {
 
-        if ($encryption === 'tls' || $encryption === 'starttls') {
-            $result = app_smtp_command($socket, 'STARTTLS', array(220), 'STARTTLS');
-            if (!$result['success']) {
-                fclose($socket);
-                return $result;
+                    $mail->addStringEmbeddedImage(
+                        $attachment['content'],
+                        $attachment['cid'],
+                        $attachment['filename'],
+                        'base64',
+                        $attachment['content_type']
+                    );
+                }
             }
 
-            $cryptoEnabled = @stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-            if ($cryptoEnabled !== true) {
-                fclose($socket);
-                return array('success' => false, 'error' => 'Unable to start TLS encryption for SMTP.');
-            }
+            $mail->isHTML(true);
 
-            $result = app_smtp_command($socket, 'EHLO ' . $heloHost, array(250), 'EHLO after STARTTLS');
-            if (!$result['success']) {
-                fclose($socket);
-                return $result;
-            }
+            $mail->Subject = $subject;
+            $mail->Body = $htmlBody;
+            $mail->AltBody = $textBody;
+
+            $mail->send();
+
+            return [
+                'success' => true,
+                'error' => ''
+            ];
+
+        } catch (Exception $e) {
+
+            return [
+                'success' => false,
+                'error' => $mail->ErrorInfo
+            ];
         }
-
-        $result = app_smtp_command($socket, 'AUTH LOGIN', array(334), 'AUTH LOGIN');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $result = app_smtp_command($socket, base64_encode(MAIL_USERNAME), array(334), 'SMTP username');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $result = app_smtp_command($socket, base64_encode(MAIL_PASSWORD), array(235), 'SMTP password');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $result = app_smtp_command($socket, 'MAIL FROM:<' . $fromEmail . '>', array(250), 'MAIL FROM');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $result = app_smtp_command($socket, 'RCPT TO:<' . $toEmail . '>', array(250, 251), 'RCPT TO');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $result = app_smtp_command($socket, 'DATA', array(354), 'DATA');
-        if (!$result['success']) {
-            fclose($socket);
-            return $result;
-        }
-
-        $payload = app_build_email_payload($toEmail, $fromEmail, $fromName, $replyToEmail, $subject, $htmlBody, $textBody, $inlineAttachments);
-        $payload = preg_replace("/(?m)^\\./", '..', $payload);
-        fwrite($socket, $payload . "\r\n.\r\n");
-
-        $result = app_smtp_expect($socket, array(250), 'Message body');
-        app_smtp_command($socket, 'QUIT', array(221), 'QUIT');
-        fclose($socket);
-
-        return $result;
     }
 }
+// if (!function_exists('app_send_smtp_mail')) {
+//     function app_send_smtp_mail(string $toEmail, string $subject, string $htmlBody, string $textBody = '', array $inlineAttachments = array()): array
+//     {
+//         if (!app_mail_is_configured()) {
+//             return array(
+//                 'success' => false,
+//                 'error' => 'SMTP is not configured. Set MAIL_USERNAME, MAIL_PASSWORD, and MAIL_FROM_EMAIL in frontend/config/constants.php.',
+//             );
+//         }
+
+//         $toEmail = app_sanitize_email($toEmail);
+//         $fromEmail = app_sanitize_email(MAIL_FROM_EMAIL !== '' ? MAIL_FROM_EMAIL : MAIL_USERNAME);
+//         $replyToEmail = app_sanitize_email(MAIL_REPLY_TO_EMAIL !== '' ? MAIL_REPLY_TO_EMAIL : $fromEmail);
+//         $fromName = app_sanitize_header_value(MAIL_FROM_NAME);
+//         $host = app_sanitize_header_value(MAIL_HOST);
+//         $encryption = strtolower(trim((string) MAIL_ENCRYPTION));
+//         $port = (int) MAIL_PORT;
+//         $timeout = max(5, (int) MAIL_TIMEOUT);
+
+//         if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+//             return array('success' => false, 'error' => 'Recipient email address is invalid.');
+//         }
+
+//         if (!filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
+//             return array('success' => false, 'error' => 'Sender email address is invalid. Check MAIL_FROM_EMAIL.');
+//         }
+
+//         $remoteHost = ($encryption === 'ssl' ? 'ssl://' : 'tcp://') . $host . ':' . $port;
+//         $socket = @stream_socket_client(
+//             $remoteHost,
+//             $errorNumber,
+//             $errorString,
+//             $timeout,
+//             STREAM_CLIENT_CONNECT,
+//             stream_context_create(array(
+//                 'ssl' => array(
+//                     'verify_peer' => MAIL_VERIFY_PEER,
+//                     'verify_peer_name' => MAIL_VERIFY_PEER,
+//                     'allow_self_signed' => !MAIL_VERIFY_PEER,
+//                 ),
+//             ))
+//         );
+
+//         if ($socket === false) {
+//             return array('success' => false, 'error' => 'SMTP connection failed: ' . trim((string) $errorString) . ' (' . (int) $errorNumber . ').');
+//         }
+
+//         stream_set_timeout($socket, $timeout);
+
+//         $result = app_smtp_expect($socket, array(220), 'SMTP handshake');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $heloHost = $_SERVER['HTTP_HOST'] ?? 'localhost';
+//         $heloHost = preg_replace('/[^A-Za-z0-9.-]/', '', $heloHost);
+//         if ($heloHost === '') {
+//             $heloHost = 'localhost';
+//         }
+
+//         $result = app_smtp_command($socket, 'EHLO ' . $heloHost, array(250), 'EHLO');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         if ($encryption === 'tls' || $encryption === 'starttls') {
+//             $result = app_smtp_command($socket, 'STARTTLS', array(220), 'STARTTLS');
+//             if (!$result['success']) {
+//                 fclose($socket);
+//                 return $result;
+//             }
+
+//             $cryptoEnabled = @stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+//             if ($cryptoEnabled !== true) {
+//                 fclose($socket);
+//                 return array('success' => false, 'error' => 'Unable to start TLS encryption for SMTP.');
+//             }
+
+//             $result = app_smtp_command($socket, 'EHLO ' . $heloHost, array(250), 'EHLO after STARTTLS');
+//             if (!$result['success']) {
+//                 fclose($socket);
+//                 return $result;
+//             }
+//         }
+
+//         $result = app_smtp_command($socket, 'AUTH LOGIN', array(334), 'AUTH LOGIN');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $result = app_smtp_command($socket, base64_encode(MAIL_USERNAME), array(334), 'SMTP username');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $result = app_smtp_command($socket, base64_encode(MAIL_PASSWORD), array(235), 'SMTP password');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $result = app_smtp_command($socket, 'MAIL FROM:<' . $fromEmail . '>', array(250), 'MAIL FROM');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $result = app_smtp_command($socket, 'RCPT TO:<' . $toEmail . '>', array(250, 251), 'RCPT TO');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $result = app_smtp_command($socket, 'DATA', array(354), 'DATA');
+//         if (!$result['success']) {
+//             fclose($socket);
+//             return $result;
+//         }
+
+//         $payload = app_build_email_payload($toEmail, $fromEmail, $fromName, $replyToEmail, $subject, $htmlBody, $textBody, $inlineAttachments);
+//         $payload = preg_replace("/(?m)^\\./", '..', $payload);
+//         fwrite($socket, $payload . "\r\n.\r\n");
+
+//         $result = app_smtp_expect($socket, array(250), 'Message body');
+//         app_smtp_command($socket, 'QUIT', array(221), 'QUIT');
+//         fclose($socket);
+
+//         return $result;
+//     }
+// }
 
 if (!function_exists('app_build_email_payload')) {
     function app_build_email_payload(
