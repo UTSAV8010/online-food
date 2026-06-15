@@ -142,22 +142,22 @@ define(
 |--------------------------------------------------------------------------
 */
 
-// mysqli_report(MYSQLI_REPORT_OFF);
+mysqli_report(MYSQLI_REPORT_OFF);
 
-// $conn = mysqli_connect(
-//     DB_HOST,
-//     DB_USERNAME,
-//     DB_PASSWORD,
-//     DB_NAME,
-//     DB_PORT
-// );
+$conn = mysqli_connect(
+    DB_HOST,
+    DB_USERNAME,
+    DB_PASSWORD,
+    DB_NAME,
+    DB_PORT
+);
 
-// if (!$conn) {
-//     die(
-//         "Database Connection Failed: " .
-//         mysqli_connect_error()
-//     );
-// }
+if (!$conn) {
+    die(
+        "Database Connection Failed: " .
+        mysqli_connect_error()
+    );
+}
 
 mysqli_set_charset($conn, 'utf8mb4');
 
