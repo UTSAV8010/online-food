@@ -1,65 +1,59 @@
-<?php
 
-// Starting the Session
+<?php
 ob_start();
 
-$sessionLifetime = 60 * 60 * 24; // 24 hours
-$secureCookie = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-
-$cookieParams = session_get_cookie_params();
-$cookieParams = array(
-    'lifetime' => $sessionLifetime,
-    'path' => $cookieParams['path'] ?? '/',
-    'domain' => $cookieParams['domain'] ?? '',
-    'secure' => $secureCookie,
-    'httponly' => true,
-    'samesite' => 'Lax',
-);
-
-ini_set('session.gc_maxlifetime', (string) $sessionLifetime);
-ini_set('session.cookie_lifetime', (string) $sessionLifetime);
-
-session_set_cookie_params($cookieParams);
+/*
+|--------------------------------------------------------------------------
+| SESSION CONFIGURATION
+|--------------------------------------------------------------------------
+*/
 
 if (session_status() === PHP_SESSION_NONE) {
+
+    $sessionLifetime = 60 * 60 * 24; // 24 hours
+
+    ini_set('session.gc_maxlifetime', $sessionLifetime);
+    ini_set('session.cookie_lifetime', $sessionLifetime);
+
+    session_set_cookie_params([
+        'lifetime' => $sessionLifetime,
+        'path'     => '/',
+        'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+
     session_start();
 }
 
 /*
 |--------------------------------------------------------------------------
-| Site URL Configuration
+| SITE URL
 |--------------------------------------------------------------------------
-|
-| Localhost:
-| define('SITEURL', 'http://localhost/r-management/');
-|
-| Render:
-|
 */
 
 define('SITEURL', 'https://online-food-ordering-tn7s.onrender.com/');
 
 /*
 |--------------------------------------------------------------------------
-| Railway Database Configuration
+| DATABASE CONFIGURATION
 |--------------------------------------------------------------------------
 |
 | IMPORTANT:
-| If Render cannot connect using mysql.railway.internal,
-| replace LOCALHOST with your Railway public host.
+| Replace these with your Railway PUBLIC database details.
 |
 */
 
-define('LOCALHOST', 'mysql.railway.internal');
+define('LOCALHOST', 'YOUR_RAILWAY_PUBLIC_HOST');
 define('DB_PORT', 3306);
 
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC');
+define('DB_PASSWORD', 'YOUR_RAILWAY_PASSWORD');
 define('DB_NAME', 'railway');
 
 /*
 |--------------------------------------------------------------------------
-| SMTP Mail Configuration
+| SMTP CONFIGURATION
 |--------------------------------------------------------------------------
 */
 
@@ -68,12 +62,12 @@ define('MAIL_PORT', 587);
 define('MAIL_ENCRYPTION', 'tls');
 
 define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
-define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
+define('MAIL_PASSWORD', 'YOUR_GMAIL_APP_PASSWORD');
 
-define('MAIL_FROM_EMAIL', 'utsavsarvaliya27@gmail.com');
+define('MAIL_FROM_EMAIL', MAIL_USERNAME);
 define('MAIL_FROM_NAME', 'Pasar-kita');
 
-define('MAIL_REPLY_TO_EMAIL', 'utsavsarvaliya27@gmail.com');
+define('MAIL_REPLY_TO_EMAIL', MAIL_USERNAME);
 
 define('MAIL_TIMEOUT', 20);
 define('MAIL_VERIFY_PEER', false);
@@ -82,7 +76,7 @@ define('APP_OTP_TTL_SECONDS', 60);
 
 /*
 |--------------------------------------------------------------------------
-| Inventory Settings
+| INVENTORY SETTINGS
 |--------------------------------------------------------------------------
 */
 
@@ -90,7 +84,7 @@ $low_stock_threshold = 3;
 
 /*
 |--------------------------------------------------------------------------
-| Payment Gateway Settings
+| PAYMENT SETTINGS
 |--------------------------------------------------------------------------
 */
 
@@ -99,15 +93,15 @@ define('RECEIVE_UPI_NAME', 'Pasar-kita Online Foods');
 
 /*
 |--------------------------------------------------------------------------
-| Google Maps API
+| GOOGLE MAPS API
 |--------------------------------------------------------------------------
 */
 
-define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
+define('GOOGLE_MAPS_API_KEY', 'YOUR_GOOGLE_MAPS_API_KEY');
 
 /*
 |--------------------------------------------------------------------------
-| Database Connection
+| DATABASE CONNECTION
 |--------------------------------------------------------------------------
 */
 
@@ -120,15 +114,33 @@ $conn = mysqli_connect(
 );
 
 if (!$conn) {
-    die("Database Connection Failed: " . mysqli_connect_error());
+    die(
+        '<h2>Database Connection Failed</h2>' .
+        '<p>' . mysqli_connect_error() . '</p>'
+    );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Mail Functions
+| DATABASE CHARSET
 |--------------------------------------------------------------------------
 */
 
-require_once __DIR__ . '/mail.php';
+if (!mysqli_set_charset($conn, 'utf8mb4')) {
+    die(
+        '<h2>Charset Error</h2>' .
+        '<p>' . mysqli_error($conn) . '</p>'
+    );
+}
 
-?>
+/*
+|--------------------------------------------------------------------------
+| MAIL FUNCTIONS
+|--------------------------------------------------------------------------
+*/
+
+$mailFile = __DIR__ . '/mail.php';
+
+if (file_exists($mailFile)) {
+    require_once $mailFile;
+}
