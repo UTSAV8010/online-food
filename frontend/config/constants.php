@@ -61,6 +61,10 @@ define('APP_OTP_TTL_SECONDS', 60);
 // Low stock threshold used in restro panels and notifications.
 $low_stock_threshold = 3;
 
+// Payment Gateway UPI Settings
+define('RECEIVE_UPI_ID', 'utsavsarvaliya27@oksbi'); // Change this to your actual UPI ID to receive payments
+define('RECEIVE_UPI_NAME', 'Pasar-kita Online Foods');
+
 // Google Maps API key (keep it in server-side config, not in JS files)
 define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
 // Create connection

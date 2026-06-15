@@ -126,37 +126,44 @@
     .catalog-card .card-title {
         margin-bottom: 8px;
         color: #0b1f49;
-        font-weight: 800;
-        font-size: 1.55rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        line-height: 1.3;
     }
 
     .catalog-card .card-text {
-        color: #5f6f86;
-        font-size: 1rem;
+        color: #6c757d;
+        font-size: 0.95rem;
         min-height: 46px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .catalog-btn-group {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        display: flex;
+        gap: 8px;
         margin-top: 14px;
+        width: 100%;
     }
 
     .catalog-btn {
+        flex: 1;
         border: 0;
-        border-radius: 10px;
-        padding: 10px 12px;
-        font-size: .78rem;
-        /* font-weight: 800; */
+        border-radius: 8px;
+        padding: 10px 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: .35px;
+        letter-spacing: 0.5px;
         transition: transform .2s ease, box-shadow .2s ease;
         color: #fff !important;
         text-decoration: none;
         display: inline-flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
     }
 
     .catalog-btn.menu {

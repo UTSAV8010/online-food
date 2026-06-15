@@ -110,22 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
             exit();
         }
     } elseif ($pay_mode === 'upi') {
-        $upi_ref = trim($upi_ref);
-        $upi_id = trim($upi_id);
-        if ($upi_id === '') {
-            echo "<script>alert('Please enter your UPI ID.');</script>";
-            exit();
-        }
-        if (!preg_match('/^[A-Za-z0-9._-]{2,}@[A-Za-z0-9.-]{2,}$/', $upi_id)) {
-            echo "<script>alert('Please enter a valid UPI ID (e.g., name@bank).');</script>";
-            exit();
-        }
-        if ($upi_ref === '') {
-            echo "<script>alert('Please enter your UPI transaction ID.');</script>";
-            exit();
-        }
-        $payment_status = 'upi';
-        $tran_id = 'UPI:' . $upi_id . ' | UTR:' . $upi_ref;
+        $payment_status = 'pending_upi';
+        $tran_id = 'UPI-PENDING-' . uniqid();
     }
 
     $insert_order_manager = "INSERT INTO `order_manager` (username, cus_name, cus_email, cus_add1, cus_city, cus_phone, payment_status, order_date, total_amount, transaction_id, order_status, location)
@@ -151,18 +137,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purchase'])) {
 
                 $insert_online_orders_new->bind_param('isiids', $order_id, $item_name, $price, $quantity, $line_total, $restro_name);
                 $insert_online_orders_new->execute();
-
-                $update_quantity_query = "UPDATE `tbl_food` SET stock = stock - $quantity WHERE title = '$item_name'";
-                mysqli_query($conn, $update_quantity_query);
-                $update_quantity = "UPDATE `tbl_restro_food_item` SET stock = stock - $quantity WHERE title = '$item_name'";
-                mysqli_query($conn, $update_quantity);
             }
-
             $insert_online_orders_new->close();
         }
 
-        unset($_SESSION['cart']);
-        echo "<script>alert('Order placed successfully!'); window.location.href = 'view-orders.php';</script>";
+        if ($pay_mode === 'upi') {
+            $pg_url = SITEURL . "pg/checkout.php?order_id=$order_id&amount=$amount";
+            echo "<script>window.location.href = '$pg_url';</script>";
+            exit();
+        } else {
+            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+                foreach ($_SESSION['cart'] as $value) {
+                    $item_name = $value['Item_Name'];
+                    $quantity = (int)$value['Quantity'];
+                    $update_quantity_query = "UPDATE `tbl_food` SET stock = stock - $quantity WHERE title = '$item_name'";
+                    mysqli_query($conn, $update_quantity_query);
+                    $update_quantity = "UPDATE `tbl_restro_food_item` SET stock = stock - $quantity WHERE title = '$item_name'";
+                    mysqli_query($conn, $update_quantity);
+                }
+            }
+            unset($_SESSION['cart']);
+            echo "<script>alert('Order placed successfully!'); window.location.href = 'view-orders.php';</script>";
+        }
     } else {
         echo "<script>alert('Failed to place order.');</script>";
     }
@@ -685,11 +681,6 @@ body {
                         <input type="text" name="card_expiry" class="form-control mb-2" placeholder="MM/YY Expiry">
                         <input type="text" name="card_cvv" class="form-control" placeholder="CVV">
                      </div>
-                     <div id="upi-details" style="display:none;">
-                        <input type="text" name="upi_id" class="form-control mb-2" placeholder="UPI ID (e.g., name@bank)">
-                        <input type="text" name="upi_ref" class="form-control" placeholder="UPI Transaction ID / UTR">
-                        <small class="text-muted d-block mt-1">Use your reference from GPay, Paytm, PhonePe, or any UPI app.</small>
-                     </div>
                   </div>
                   <button class="checkout-btn" name="purchase" id="checkoutBtn" type="submit">Checkout</button>
                </form>
@@ -796,9 +787,6 @@ document.addEventListener('DOMContentLoaded', function () {
         input.addEventListener('change', () => {
             if (cardDetails) {
                 cardDetails.style.display = input.value === 'card' && input.checked ? 'block' : 'none';
-            }
-            if (upiDetails) {
-                upiDetails.style.display = input.value === 'upi' && input.checked ? 'block' : 'none';
             }
         });
     });
@@ -988,22 +976,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (!/^\d{3}$/.test(cardCVV)) {
                 showError(cardCVVInput, 'CVV must be exactly 3 digits.');
-                isValid = false;
-            }
-        }
-
-        if (selectedPayment === 'upi') {
-            const upiId = (upiIdInput ? upiIdInput.value : '').trim();
-            const upiRef = (upiRefInput ? upiRefInput.value : '').trim();
-            if (!upiId) {
-                showError(upiIdInput, 'Please enter your UPI ID.');
-                isValid = false;
-            } else if (!/^[A-Za-z0-9._-]{2,}@[A-Za-z0-9.-]{2,}$/.test(upiId)) {
-                showError(upiIdInput, 'UPI ID should look like name@bank.');
-                isValid = false;
-            }
-            if (!upiRef) {
-                showError(upiRefInput, 'Please enter your UPI transaction ID.');
                 isValid = false;
             }
         }

@@ -10,6 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_SESSION['cart'])) {
             $myitems = array_column($_SESSION['cart'], 'Item_Name');
             if (in_array($_POST['Item_Name'], $myitems)) {
+                if (isset($_POST['ajax']) && $_POST['ajax'] == 1) {
+                    echo json_encode(['status' => 'info', 'message' => 'Item Already In Cart']);
+                    exit();
+                }
                 echo "<script>alert('Item Already In Cart'); window.location.href='" . SITEURL . "mycart';</script>";
             } else {
                 $count = count($_SESSION['cart']);
@@ -20,6 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'Restro_Name' => $_POST['Restro_Name'],
                     'Quantity' => 1
                 );
+                if (isset($_POST['ajax']) && $_POST['ajax'] == 1) {
+                    echo json_encode(['status' => 'success', 'message' => 'Item added to cart successfully!']);
+                    exit();
+                }
                 echo "<script>window.location.href='" . SITEURL . "mycart';</script>";
             }
         } else {
@@ -30,6 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'Restro_Name' => $_POST['Restro_Name'],
                 'Quantity' => 1
             );
+            if (isset($_POST['ajax']) && $_POST['ajax'] == 1) {
+                echo json_encode(['status' => 'success', 'message' => 'Item added to cart successfully!']);
+                exit();
+            }
             echo "<script>window.location.href='" . SITEURL . "mycart';</script>";
         }
     }

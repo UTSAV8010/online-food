@@ -394,7 +394,9 @@
 
         .restro-title {
             color: #0f224a;
-            font-weight: 800;
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.3;
         }
 
         .restro-address {
@@ -436,24 +438,150 @@
         }
 
         .restro-btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            display: flex;
+            gap: 8px;
+            width: 100%;
         }
 
-        .restro-btn {
+        /* New Menu Card Style */
+        .home-menu-card {
             border: 0;
-            border-radius: 10px;
-            padding: 10px 12px;
-            font-size: 0.78rem;
-            /* font-weight: 800; */
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .home-menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+
+        .home-menu-card .img-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .home-menu-card .card-img-top {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .home-menu-card .cart-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #111;
+            z-index: 2;
+        }
+
+        .home-menu-card .card-body {
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .home-menu-card .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .home-menu-card .card-title {
+            margin: 0;
+            text-align: left;
+            color: #111;
+            font-weight: 800;
+            font-size: 1.25rem;
+            line-height: 1.3;
+        }
+
+        .home-menu-card .card-price {
+            margin: 0;
+            color: #111;
+            font-weight: 800;
+            font-size: 1.15rem;
+            white-space: nowrap;
+        }
+
+        .home-menu-card .card-desc {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin-bottom: 24px;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .home-menu-card form {
+            margin-top: auto;
+        }
+
+        .home-menu-btn {
+            border: 0;
+            border-radius: 8px;
+            background-color: #e69500;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 24px;
             text-transform: uppercase;
-            letter-spacing: 0.35px;
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .home-menu-btn:hover {
+            transform: translateY(-2px);
+            background-color: #d18700;
+            box-shadow: 0 8px 15px rgba(230, 149, 0, 0.3);
+        }
+
+        .home-menu-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 transparent !important;
+        }
+
+    </style>
+
+        .restro-btn {
+            flex: 1;
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             color: #fff !important;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
             transition: transform .2s ease, box-shadow .2s ease;
         }
 
@@ -605,8 +733,8 @@
                             ?>
 
                              <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                <div class="room-item shadow rounded overflow-hidden">
-                                    <div class="position-relative">
+                                <div class="home-menu-card">
+                                    <div class="img-wrapper">
                                         <?php
                                             $food_image_file = __DIR__ . '/../images/food/' . $image_name;
                                             $has_food_image = ($image_name !== '' && is_file($food_image_file));
@@ -617,32 +745,24 @@
                                             else
                                             {
                                                 ?>
-                                                <img class="img-fluid w-100" src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" alt="<?php echo $title; ?>" style="height: 250px; object-fit: cover;">
+                                                <img class="card-img-top" src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" alt="<?php echo $title; ?>">
                                                 <?php
                                             }
                                         ?>
-                                        <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4" style="background:#e69500 !important; border:none;">₹ <?php echo $price; ?></small>
+                                        <div class="cart-icon"><i class="fa fa-shopping-basket"></i></div>
                                     </div>
-                                    <div class="p-4 mt-2">
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <h5 class="mb-0"><?php echo $title; ?></h5>
-                                            <div class="ps-2">
-                                                <small class="fa fa-star text-primary" style="color:#fea116 !important; "></small>
-                                                <small class="fa fa-star text-primary" style="color:#fea116 !important; "></small>
-                                                <small class="fa fa-star text-primary" style="color:#fea116 !important; "></small>
-                                                <small class="fa fa-star text-primary" style="color:#fea116 !important; "></small>
-                                                <small class="fa fa-star text-primary" style="color:#fea116 !important; "></small>
-                                            </div>
+                                    <div class="card-body">
+                                        <div class="card-header-flex">
+                                            <h5 class="card-title"><?php echo $title; ?></h5>
+                                            <p class="card-price">₹ <?php echo $price; ?></p>
                                         </div>
-                                        <p class="text-body mb-3"><?php echo substr($description, 0, 100); ?>...</p>
+                                        <p class="card-desc"><?php echo substr($description, 0, 100); ?>...</p>
                                          <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
                                             <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
                                             <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">
                                             <input type="hidden" name="Price" value="<?php echo $price; ?>">
                                             <input type="hidden" name="Id" value="<?php echo $id; ?>">
-                                            <div class="d-flex justify-content-between">
-                                                 <button type="submit" name="Add_To_Cart" class="btn btn-sm btn-dark rounded py-2 px-4">Add To Cart</button>
-                                            </div>
+                                            <button type="submit" name="Add_To_Cart" class="home-menu-btn">Order Now <i class="fa fa-utensils"></i></button>
                                          </form>
                                     </div>
                                 </div>

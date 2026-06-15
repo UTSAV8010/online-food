@@ -93,64 +93,124 @@
         }
 
         .catalog-card {
-            height: 100%;
             border: 0;
-            border-radius: 18px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 14px 36px rgba(8, 27, 70, 0.14);
-            transition: transform .28s ease, box-shadow .28s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .catalog-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 44px rgba(8, 27, 70, 0.2);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+
+        .catalog-card .img-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         .catalog-card .card-img-top {
             height: 220px;
+            width: 100%;
             object-fit: cover;
-            transition: transform .35s ease;
+            border-radius: 20px 20px 0 0;
         }
 
-        .catalog-card:hover .card-img-top {
-            transform: scale(1.05);
+        .catalog-card .cart-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #111;
+            z-index: 2;
         }
 
         .catalog-card .card-body {
-            padding: 18px 16px 20px;
-            text-align: center;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .catalog-card .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 12px;
         }
 
         .catalog-card .card-title {
-            margin-bottom: 8px;
-            color: #0b1f49;
+            margin: 0;
+            text-align: left;
+            color: #111;
             font-weight: 800;
-            font-size: 1.55rem;
+            font-size: 1.25rem;
+            line-height: 1.3;
         }
 
-        .catalog-card .card-text {
-            color: #5f6f86;
-            font-size: 1rem;
-            min-height: 24px;
+        .catalog-card .card-price {
+            margin: 0;
+            color: #111;
+            font-weight: 800;
+            font-size: 1.15rem;
+            white-space: nowrap;
+        }
+
+        .catalog-card .card-desc {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin-bottom: 24px;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .catalog-card form {
+            margin-top: auto;
         }
 
         .catalog-btn {
             border: 0;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: .8rem;
-            /* font-weight: 800; */
+            border-radius: 8px;
+            background-color: #e69500;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 24px;
             text-transform: uppercase;
-            letter-spacing: .35px;
-            transition: transform .2s ease, box-shadow .2s ease;
-            color: #fff !important;
-            background: #e69500;
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .catalog-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 40, 86, .22);
-            color: #fff;
+            background-color: #d18700;
+            box-shadow: 0 8px 15px rgba(230, 149, 0, 0.3);
+        }
+
+        .catalog-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 transparent !important;
         }
 
         .catalog-empty {
@@ -219,17 +279,24 @@
                     $id = $row['id'];
                     $title = $row['title'];
                     $price = $row['price'];
+                    $description = $row['description'];
                     $restro_name = $row['restro_name'];
                     $image_name = $row['image_name'];
                     ?>
                     <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                        <div class="card catalog-card">
-                            <img src="<?php echo SITEURL; ?>restro/uploads/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
-                            <div class="card-body text-center">
-                                <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
+                        <div class="catalog-card">
+                            <div class="img-wrapper">
+                                <img src="<?php echo SITEURL; ?>restro/uploads/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
+                                <div class="cart-icon"><i class="fa fa-shopping-basket"></i></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-header-flex">
                                     <h5 class="card-title"><?php echo $title; ?></h5>
-                                    <p class="card-text"><?php echo $price; ?></p>
-                                    <button type="submit" name="Add_To_Cart" class="catalog-btn">Add To Cart</button>
+                                    <p class="card-price">₹ <?php echo $price; ?></p>
+                                </div>
+                                <p class="card-desc"><?php echo $description; ?></p>
+                                <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
+                                    <button type="submit" name="Add_To_Cart" class="catalog-btn">Order Now <i class="fa fa-utensils"></i></button>
                                     <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
                                     <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">
                                     <input type="hidden" name="Price" value="<?php echo $price; ?>">

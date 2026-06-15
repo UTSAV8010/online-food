@@ -123,27 +123,30 @@
         .catalog-card .card-title {
             margin-bottom: 8px;
             color: #0b1f49;
-            font-weight: 800;
-            font-size: 1.55rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.3;
         }
 
         .catalog-card .card-text {
-            color: #5f6f86;
-            font-size: 1rem;
+            color: #198754;
+            font-size: 1.1rem;
+            font-weight: 700;
             min-height: 24px;
         }
 
         .catalog-btn {
             border: 0;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 10px 16px;
-            font-size: .8rem;
-            /* font-weight: 800; */
+            font-size: 0.9rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: .35px;
+            letter-spacing: 0.5px;
             transition: transform .2s ease, box-shadow .2s ease;
             color: #fff !important;
             background: #e69500;
+            width: 100%;
         }
 
         .catalog-btn:hover {
@@ -252,7 +255,7 @@ if(isset($_GET['category_id'])) {
                         <div class="card-body text-center">
                             <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
                                 <h5 class="card-title"><?php echo $title; ?></h5>
-                                <p class="card-text"><?php echo $price; ?></p>
+                                <p class="card-text">₹ <?php echo $price; ?></p>
                                 <button type="submit" name="Add_To_Cart" class="catalog-btn">Add To Cart</button>
                                 <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
                                 <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">

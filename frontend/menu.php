@@ -98,71 +98,138 @@
         }
 
         .menu-card {
-            height: 100%;
             border: 0;
-            border-radius: 18px;
+            border-radius: 20px;
             overflow: hidden;
-            background: #fff;
-            box-shadow: 0 14px 36px rgba(8, 27, 70, 0.14);
-            transition: transform .28s ease, box-shadow .28s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .menu-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 44px rgba(8, 27, 70, 0.2);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+
+        .menu-card .img-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         .menu-card .card-img-top {
             height: 220px;
+            width: 100%;
             object-fit: cover;
-            transition: transform .35s ease;
+            border-radius: 20px 20px 0 0;
         }
 
-        .menu-card:hover .card-img-top {
-            transform: scale(1.06);
+        .menu-card .cart-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #111;
+            z-index: 2;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-card:hover .cart-icon {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .menu-card .cart-icon:hover {
+            background: #e69500;
+            color: white;
         }
 
         .menu-card .card-body {
-            padding: 18px 16px 20px;
+            padding: 24px 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
+            flex-grow: 1;
+        }
+
+        .menu-card .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 12px;
         }
 
         .menu-card .card-title {
             margin: 0;
-            text-align: center;
-            color: #0b1f49;
+            text-align: left;
+            color: #111;
             font-weight: 800;
-            font-size: 1.62rem;
-            line-height: 1.25;
+            font-size: 1.25rem;
+            line-height: 1.3;
         }
 
-        .menu-card .card-text {
+        .menu-card .card-price {
             margin: 0;
-            color: #5f6f86;
-            font-weight: 700;
-            font-size: 1.02rem;
+            color: #111;
+            font-weight: 800;
+            font-size: 1.15rem;
+            white-space: nowrap;
+        }
+
+        .menu-card .card-desc {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin-bottom: 24px;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .menu-card form {
+            margin-top: auto;
         }
 
         .menu-btn {
             border: 0;
-            border-radius: 10px;
-            background: #e69500;;
+            border-radius: 8px;
+            background-color: #e69500;
             color: #fff;
-            /* font-weight: 800; */
-            font-size: 0.82rem;
-            letter-spacing: 0.35px;
-            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 12px 24px;
             text-transform: uppercase;
-            transition: transform .2s ease, box-shadow .2s ease;
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .menu-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(230, 149, 0, 0.35);
+            background-color: #d18700;
+            box-shadow: 0 8px 15px rgba(230, 149, 0, 0.3);
+        }
+
+        .menu-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 transparent !important;
         }
 
         .menu-empty {
@@ -256,23 +323,29 @@
                                 $title = $row['title'];
                                 $price = $row['price'];
                                 
-                        $restro_name = $row['restro_name'];
+                                $description = $row['description'];
+                                $restro_name = $row['restro_name'];
                                 $image_name = $row['image_name'];
-                                
 
                                 ?>
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                            <div class="card menu-card">
-                                <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
-                                <div class="card-body text-center">
+                            <div class="menu-card">
+                                <div class="img-wrapper">
+                                    <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
+                                    <div class="cart-icon"><i class="fa fa-shopping-basket"></i></div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-header-flex">
+                                        <h5 class="card-title"><?php echo $title; ?></h5>
+                                        <p class="card-price">₹ <?php echo $price; ?></p>
+                                    </div>
+                                    <p class="card-desc"><?php echo $description; ?></p>
                                     <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
-                                    <h5 class="card-title"><?php echo $title; ?></h5>
-                                    <p class="card-text"><?php echo $price; ?></p>
-                                    <button type="submit" name="Add_To_Cart" class="menu-btn">Add To Cart</button>
-                                    <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
-                                    <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">
-                                    <input type="hidden" name="Price" value="<?php echo $price; ?>">
-                                    <input type="hidden" name="Id" value="<?php echo $id; ?>">
+                                        <button type="submit" name="Add_To_Cart" class="menu-btn">Order Now <i class="fa fa-utensils"></i></button>
+                                        <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
+                                        <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">
+                                        <input type="hidden" name="Price" value="<?php echo $price; ?>">
+                                        <input type="hidden" name="Id" value="<?php echo $id; ?>">
                                     </form>
                                 </div>
                             </div>
@@ -315,19 +388,24 @@
                         $id = $row['id'];
                         $restro_name = $row['restro_name'];
                         $title = $row['title'];
+                        $description = $row['description'];
                         $image_name = $row['image_name'];
                         $price = $row['price'];
                 ?>
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <div class="card menu-card">
-                        <img src="<?php echo SITEURL; ?>restro/uploads/food/<?php echo $image_name; ?>"
-                            class="card-img-top" alt="...">
-                        <div class="card-body text-center">
+                    <div class="menu-card">
+                        <div class="img-wrapper">
+                            <img src="<?php echo SITEURL; ?>restro/uploads/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
+                            <div class="cart-icon"><i class="fa fa-shopping-basket"></i></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-header-flex">
+                                <h5 class="card-title"><?php echo $title; ?></h5>
+                                <p class="card-price">₹ <?php echo $price; ?></p>
+                            </div>
+                            <p class="card-desc"><?php echo $description; ?></p>
                             <form action="<?php echo SITEURL; ?>manage-cart" method="POST">
-                                <h5 class="card-title"> <?php echo $restro_name; ?> </h5>
-                                <h5 class="card-title"> <?php echo $title; ?> </h5>
-                                <p class="card-text"> <?php echo $price; ?> </p>
-                                <button type="submit" name="Add_To_Cart" class="menu-btn">Add To Cart</button>
+                                <button type="submit" name="Add_To_Cart" class="menu-btn">Order Now <i class="fa fa-utensils"></i></button>
                                 <input type="hidden" name="Restro_Name" value="<?php echo $restro_name; ?>">
                                 <input type="hidden" name="Item_Name" value="<?php echo $title; ?>">
                                 <input type="hidden" name="Price" value="<?php echo $price; ?>">
@@ -373,6 +451,65 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <!-- Toast Container for Notifications -->
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>
+
+    <script>
+    $(document).ready(function() {
+        function showToast(message, type) {
+            var bgClass = type === 'success' ? 'bg-success' : (type === 'info' ? 'bg-info' : 'bg-danger');
+            var toastHtml = `
+                <div class="toast align-items-center text-white ${bgClass} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            var $toast = $(toastHtml);
+            $('#toast-container').append($toast);
+            var toastElement = new bootstrap.Toast($toast[0], { delay: 3000 });
+            toastElement.show();
+            $toast.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
+        }
+
+        $('.cart-icon').on('click', function(e) {
+            e.preventDefault();
+            var icon = $(this);
+            var card = icon.closest('.menu-card');
+            var form = card.find('form');
+            var formData = form.serialize() + '&Add_To_Cart=1&ajax=1';
+
+            // Optional: change icon to a spinner while loading
+            var originalHtml = icon.html();
+            icon.html('<i class="fa fa-spinner fa-spin"></i>');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    icon.html(originalHtml);
+                    if(response.status) {
+                        showToast(response.message, response.status);
+                    } else {
+                        showToast('Item added to cart', 'success');
+                    }
+                },
+                error: function() {
+                    icon.html(originalHtml);
+                    showToast('An error occurred. Please try again.', 'danger');
+                }
+            });
+        });
+    });
+    </script>
 <?php include('site-footer.php'); ?>
 </body>
 

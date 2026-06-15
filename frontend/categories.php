@@ -136,22 +136,24 @@
     .cat-card .card-title {
         margin: 0;
         color: #0b1f49;
-        font-size: 1.65rem;
-        font-weight: 800;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.3;
         text-align: center;
     }
 
     .cat-btn {
         border: 0;
-        border-radius: 10px;
+        border-radius: 8px;
         background: #e69500;
         color: #fff;
-        /* font-weight: 800; */
-        font-size: 0.82rem;
-        letter-spacing: 0.4px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
         padding: 10px 16px;
         text-transform: uppercase;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
     }
 
     .cat-btn:hover {
@@ -254,7 +256,7 @@
                                 <img src="<?php echo SITEURL; ?>images/category/<?php echo $image_name; ?>" class="card-img-top" alt="...">
                                 <div class="card-body text-center">
                                     <h5 class="card-title"><?php echo $title; ?></h5>
-                                    <a href="<?php echo SITEURL; ?>category-foods.php?category_id=<?php echo $id; ?>">
+                                    <a href="<?php echo SITEURL; ?>category-foods.php?category_id=<?php echo $id; ?>" style="width: 100%;">
                                     <button class="cat-btn">Explore Category</button>
                                     </a>
                                 </div>
@@ -305,7 +307,7 @@
                         <img src="<?php echo SITEURL; ?>restro/uploads/category/<?php echo $image_name; ?>" class="card-img-top" alt="Category Image">
                         <div class="card-body text-center">
                             <h5 class="card-title"><?php echo $title; ?></h5>
-                            <a href="<?php echo SITEURL; ?>restro-category.php?category_id=<?php echo $id; ?>">
+                            <a href="<?php echo SITEURL; ?>restro-category.php?category_id=<?php echo $id; ?>" style="width: 100%;">
     <button class="cat-btn">Explore Category</button>
 </a>
 

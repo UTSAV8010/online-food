@@ -1,5 +1,5 @@
-<?php include('config/constants.php'); 
-include('config/blocked-check.php');  ?>
+<?php include('config/constants.php');
+include('config/blocked-check.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,14 +12,14 @@ include('config/blocked-check.php');  ?>
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link rel="icon" 
-      type="image/png" 
-      href="images/logo2.png">
+    <link rel="icon" type="image/png" href="images/logo2.png">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -36,568 +36,663 @@ include('config/blocked-check.php');  ?>
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <style>
-        .container-xxl{
-        max-width:100%;
-    }
+        .container-xxl {
+            max-width: 100%;
+        }
 
-.scroll-top-button:hover {
-    background: #e69500;
-}
-.back-to-top{
-    right:0px!important;
-    bottom:27px !important;
-}
+        .scroll-top-button:hover {
+            background: #e69500;
+        }
 
-.testimonial-kicker {
-    position: relative;
-    display: inline-block;
-    font-family: "Pacifico", cursive;
-    color: #0d6efd;
-    font-size: 1.15rem;
-    font-weight:500;
-    line-height: 1.1;
-    padding: 0 82px;
-    margin-bottom: 10px;
-}
+        .back-to-top {
+            right: 0px !important;
+            bottom: 27px !important;
+        }
 
-.testimonial-kicker::before,
-.testimonial-kicker::after {
-    content: "";
-    position: absolute;
-    top: 54%;
-    width: 56px;
-    height: 2px;
-    background: #fea116;
-}
+        .testimonial-kicker {
+            position: relative;
+            display: inline-block;
+            font-family: "Pacifico", cursive;
+            color: #0d6efd;
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.1;
+            padding: 0 82px;
+            margin-bottom: 10px;
+        }
 
-.testimonial-kicker::before { left: 12px; }
-.testimonial-kicker::after { right: 12px; }
+        .testimonial-kicker::before,
+        .testimonial-kicker::after {
+            content: "";
+            position: absolute;
+            top: 54%;
+            width: 56px;
+            height: 2px;
+            background: #fea116;
+        }
 
-.testimonial-subhead {
-    position: relative;
-    display: inline-block;
-    font-family: "Pacifico", cursive;
-    color: #0d6efd;
-    font-size: 1.1rem;
-    font-weight: 500;
-    line-height: 1.1;
-    padding: 0 92px;
-    margin-bottom: 10px;
-}
+        .testimonial-kicker::before {
+            left: 12px;
+        }
 
-.testimonial-subhead::before,
-.testimonial-subhead::after {
-    content: "";
-    position: absolute;
-    top: 55%;
-    width: 72px;
-    height: 2px;
-    background: #fea116;
-}
+        .testimonial-kicker::after {
+            right: 12px;
+        }
 
-.testimonial-subhead::before { left: 6px; }
-.testimonial-subhead::after { right: 6px; }
+        .testimonial-subhead {
+            position: relative;
+            display: inline-block;
+            font-family: "Pacifico", cursive;
+            color: #0d6efd;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.1;
+            padding: 0 92px;
+            margin-bottom: 10px;
+        }
 
-.testimonial-info {
-    text-align: center;
-}
+        .testimonial-subhead::before,
+        .testimonial-subhead::after {
+            content: "";
+            position: absolute;
+            top: 55%;
+            width: 72px;
+            height: 2px;
+            background: #fea116;
+        }
 
-.testimonial-info p {
-    margin-bottom: 0;
-    color: #6b7280;
-}
+        .testimonial-subhead::before {
+            left: 6px;
+        }
 
-.testimonial-features {
-    margin-bottom: 2.25rem;
-}
+        .testimonial-subhead::after {
+            right: 6px;
+        }
 
-.testimonial-feature {
-    background: #ffffff;
-    border: 1px solid #eef2f7;
-    border-radius: 18px;
-    padding: 24px 22px;
-    height: 100%;
-    box-shadow: 0 10px 24px rgba(15, 23, 43, 0.08);
-    text-align: center;
-}
+        .testimonial-info {
+            text-align: center;
+        }
 
-.testimonial-feature .feature-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 16px;
-    background: rgba(254, 161, 22, 0.15);
-    color: #fea116;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.35rem;
-    margin-bottom: 12px;
-}
+        .testimonial-info p {
+            margin-bottom: 0;
+            color: #6b7280;
+        }
 
-.testimonial-feature p {
-    margin: 0;
-    color: #6b7280;
-}
+        .testimonial-features {
+            margin-bottom: 2.25rem;
+        }
 
-.customer-say-section {
-    margin: 1.75rem auto 2.5rem;
-}
+        .testimonial-feature {
+            background: #ffffff;
+            border: 1px solid #eef2f7;
+            border-radius: 18px;
+            padding: 24px 22px;
+            height: 100%;
+            box-shadow: 0 10px 24px rgba(15, 23, 43, 0.08);
+            text-align: center;
+        }
 
-.customer-say-card {
-    position: relative;
-    border-radius: 28px;
-    border: 1px solid #edf1f7;
-    background: #ffffff;
-    box-shadow: 0 18px 38px rgba(15, 23, 43, 0.12);
-    padding: 36px 28px 30px;
-    overflow: hidden;
-}
+        .testimonial-feature .feature-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: rgba(254, 161, 22, 0.15);
+            color: #fea116;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+        }
 
-.customer-say-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top, rgba(254, 161, 22, 0.08), transparent 60%);
-    pointer-events: none;
-}
+        .testimonial-feature p {
+            margin: 0;
+            color: #6b7280;
+        }
 
-.customer-say-content {
-    position: relative;
-    text-align: center;
-    max-width: 520px;
-    margin: 0 auto 22px;
-}
+        .customer-say-section {
+            margin: 1.75rem auto 2.5rem;
+        }
 
-.customer-say-content h2 {
-    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-    font-weight: 800;
-    color: #0f172f;
-    margin-bottom: 8px;
-}
+        .customer-say-card {
+            position: relative;
+            border-radius: 28px;
+            border: 1px solid #edf1f7;
+            background: #ffffff;
+            box-shadow: 0 18px 38px rgba(15, 23, 43, 0.12);
+            padding: 36px 28px 30px;
+            overflow: hidden;
+        }
 
-.customer-say-content p {
-    margin-bottom: 14px;
-    color: #6b7280;
-}
+        .customer-say-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(254, 161, 22, 0.08), transparent 60%);
+            pointer-events: none;
+        }
 
-.customer-say-avatars {
-    position: relative;
-    width: min(560px, 100%);
-    height: clamp(180px, 32vw, 230px);
-    margin: 0 auto 16px;
-}
+        .customer-say-content {
+            position: relative;
+            text-align: center;
+            max-width: 520px;
+            margin: 0 auto 22px;
+        }
 
-.customer-say-avatars .avatar {
-    position: absolute;
-    border-radius: 999px;
-    overflow: hidden;
-    border: 4px solid #ffffff;
-    box-shadow: 0 10px 24px rgba(15, 23, 43, 0.18);
-    background: #fff;
-    animation: float 6s ease-in-out infinite;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
+        .customer-say-content h2 {
+            font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+            font-weight: 800;
+            color: #0f172f;
+            margin-bottom: 8px;
+        }
 
-.customer-say-avatars .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+        .customer-say-content p {
+            margin-bottom: 14px;
+            color: #6b7280;
+        }
 
-.customer-say-avatars .avatar:hover {
-    transform: translateY(-6px) scale(1.08);
-    box-shadow: 0 16px 30px rgba(15, 23, 43, 0.25);
-}
+        .customer-say-avatars {
+            position: relative;
+            width: min(560px, 100%);
+            height: clamp(180px, 32vw, 230px);
+            margin: 0 auto 16px;
+        }
 
-.customer-say-avatars .avatar.active {
-    box-shadow: 0 18px 36px rgba(254, 161, 22, 0.35);
-    transform: translateY(-8px) scale(1.08);
-    border-color: rgba(254, 161, 22, 0.6);
-}
+        .customer-say-avatars .avatar {
+            position: absolute;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 4px solid #ffffff;
+            box-shadow: 0 10px 24px rgba(15, 23, 43, 0.18);
+            background: #fff;
+            animation: float 6s ease-in-out infinite;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
 
-.avatar-1 { width: 78px; height: 78px; top: 8%; left: 8%; animation-delay: 0s; }
-.avatar-2 { width: 62px; height: 62px; top: 38%; left: 2%; animation-delay: 0.8s; }
-.avatar-3 { width: 86px; height: 86px; top: 18%; left: 38%; animation-delay: 1.3s; }
-.avatar-4 { width: 96px; height: 96px; top: 5%; left: 62%; animation-delay: 0.3s; }
-.avatar-5 { width: 68px; height: 68px; top: 45%; left: 78%; animation-delay: 1.6s; }
-.avatar-6 { width: 58px; height: 58px; top: 62%; left: 22%; animation-delay: 2.1s; }
-.avatar-7 { width: 70px; height: 70px; top: 60%; left: 52%; animation-delay: 1.9s; }
+        .customer-say-avatars .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-.customer-say-avatars .dot {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: rgba(15, 23, 43, 0.2);
-}
+        .customer-say-avatars .avatar:hover {
+            transform: translateY(-6px) scale(1.08);
+            box-shadow: 0 16px 30px rgba(15, 23, 43, 0.25);
+        }
 
-.dot-1 { top: 8%; left: 30%; }
-.dot-2 { top: 22%; left: 88%; }
-.dot-3 { top: 72%; left: 10%; }
-.dot-4 { top: 88%; left: 44%; }
-.dot-5 { top: 48%; left: 92%; }
+        .customer-say-avatars .avatar.active {
+            box-shadow: 0 18px 36px rgba(254, 161, 22, 0.35);
+            transform: translateY(-8px) scale(1.08);
+            border-color: rgba(254, 161, 22, 0.6);
+        }
 
-.customer-say-footer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    color: #6b7280;
-    text-align: center;
-}
+        .avatar-1 {
+            width: 78px;
+            height: 78px;
+            top: 8%;
+            left: 8%;
+            animation-delay: 0s;
+        }
 
-.customer-say-footer p {
-    margin: 0;
-    max-width: 420px;
-}
+        .avatar-2 {
+            width: 62px;
+            height: 62px;
+            top: 38%;
+            left: 2%;
+            animation-delay: 0.8s;
+        }
 
-.customer-say-nav {
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
-    color: #0f172f;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+        .avatar-3 {
+            width: 86px;
+            height: 86px;
+            top: 18%;
+            left: 38%;
+            animation-delay: 1.3s;
+        }
 
-.customer-say-nav:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(15, 23, 43, 0.15);
-}
+        .avatar-4 {
+            width: 96px;
+            height: 96px;
+            top: 5%;
+            left: 62%;
+            animation-delay: 0.3s;
+        }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
+        .avatar-5 {
+            width: 68px;
+            height: 68px;
+            top: 45%;
+            left: 78%;
+            animation-delay: 1.6s;
+        }
 
-.section-heading {
-    text-align: center;
-    margin-bottom: 1.6rem;
-}
+        .avatar-6 {
+            width: 58px;
+            height: 58px;
+            top: 62%;
+            left: 22%;
+            animation-delay: 2.1s;
+        }
 
-.section-heading h2 {
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 800;
-    color: #0f172f;
-    margin-bottom: 6px;
-}
+        .avatar-7 {
+            width: 70px;
+            height: 70px;
+            top: 60%;
+            left: 52%;
+            animation-delay: 1.9s;
+        }
 
-.section-heading p {
-    color: #6b7280;
-    margin: 0;
-}
+        .customer-say-avatars .dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(15, 23, 43, 0.2);
+        }
 
-.stats-section .stat-card {
-    background: #ffffff;
-    border: 1px solid #eef2f7;
-    border-radius: 18px;
-    padding: 22px 18px;
-    text-align: center;
-    height: 100%;
-    box-shadow: 0 10px 24px rgba(15, 23, 43, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
+        .dot-1 {
+            top: 8%;
+            left: 30%;
+        }
 
-.stats-section .stat-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 30px rgba(15, 23, 43, 0.15);
-    border-color: rgba(254, 161, 22, 0.5);
-}
+        .dot-2 {
+            top: 22%;
+            left: 88%;
+        }
 
-.stats-section .stat-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    margin: 0 auto 10px;
-    background: rgba(254, 161, 22, 0.15);
-    color: #fea116;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-}
+        .dot-3 {
+            top: 72%;
+            left: 10%;
+        }
 
-.stats-section h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #0f172f;
-    margin-bottom: 4px;
-}
+        .dot-4 {
+            top: 88%;
+            left: 44%;
+        }
 
-.stats-section p {
-    margin: 0;
-    color: #6b7280;
-}
+        .dot-5 {
+            top: 48%;
+            left: 92%;
+        }
 
-.cta-card {
-    border-radius: 24px;
-    border: 1px solid #f1e4d0;
-    background: linear-gradient(120deg, rgba(254, 161, 22, 0.18), rgba(255, 255, 255, 0.9));
-    box-shadow: 0 18px 34px rgba(15, 23, 43, 0.12);
-    padding: 26px 28px;
-    gap: 20px;
-}
+        .customer-say-footer {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: #6b7280;
+            text-align: center;
+        }
 
-.cta-text h3 {
-    margin-bottom: 6px;
-    font-weight: 800;
-    color: #0f172f;
-}
+        .customer-say-footer p {
+            margin: 0;
+            max-width: 420px;
+        }
 
-.cta-text p {
-    margin-bottom: 0;
-    color: #6b7280;
-}
+        .customer-say-nav {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            color: #0f172f;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-.cta-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+        .customer-say-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(15, 23, 43, 0.15);
+        }
 
-.gallery-item {
-    position: relative;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 12px 26px rgba(15, 23, 43, 0.12);
-}
+        @keyframes float {
 
-.gallery-item img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-    display: block;
-}
+            0%,
+            100% {
+                transform: translateY(0);
+            }
 
-.gallery-item::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(15, 23, 43, 0.35));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+            50% {
+                transform: translateY(-10px);
+            }
+        }
 
-.gallery-item span {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    background: rgba(15, 23, 43, 0.75);
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    z-index: 1;
-}
+        .section-heading {
+            text-align: center;
+            margin-bottom: 1.6rem;
+        }
 
-.gallery-item:hover img {
-    transform: scale(1.05);
-}
+        .section-heading h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: #0f172f;
+            margin-bottom: 6px;
+        }
 
-.gallery-item:hover::after {
-    opacity: 1;
-}
+        .section-heading p {
+            color: #6b7280;
+            margin: 0;
+        }
 
-.faq-section .accordion-item {
-    border: 0;
-    border-radius: 22px;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    background: #ffffff;
-}
+        .stats-section .stat-card {
+            background: #ffffff;
+            border: 1px solid #eef2f7;
+            border-radius: 18px;
+            padding: 22px 18px;
+            text-align: center;
+            height: 100%;
+            box-shadow: 0 10px 24px rgba(15, 23, 43, 0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
 
-.testimonial-faq-shell {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0 16px;
-}
+        .stats-section .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 30px rgba(15, 23, 43, 0.15);
+            border-color: rgba(254, 161, 22, 0.5);
+        }
 
-.faq-section .accordion-button {
-    background: #ffffff;
-    color: #17253f;
-    font-weight: 700;
-    font-size: clamp(1rem, 2vw, 1.08rem);
-    padding: 22px 22px;
-    border-radius: 22px !important;
-    box-shadow: none !important;
-}
+        .stats-section .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            margin: 0 auto 10px;
+            background: rgba(254, 161, 22, 0.15);
+            color: #fea116;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
 
-.faq-section .accordion-button:not(.collapsed) {
-    color: #0f224a;
-}
+        .stats-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0f172f;
+            margin-bottom: 4px;
+        }
 
-.faq-section .accordion-button::after {
-    background-image: none;
-    content: "+";
-    width: 30px;
-    height: 30px;
-    border: 2px solid #8b8f97;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #666b75;
-    font-size: 1.35rem;
-    line-height: 1;
-    transform: none;
-    flex-shrink: 0;
-}
-/* .accordion{
+        .stats-section p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .cta-card {
+            border-radius: 24px;
+            border: 1px solid #f1e4d0;
+            background: linear-gradient(120deg, rgba(254, 161, 22, 0.18), rgba(255, 255, 255, 0.9));
+            box-shadow: 0 18px 34px rgba(15, 23, 43, 0.12);
+            padding: 26px 28px;
+            gap: 20px;
+        }
+
+        .cta-text h3 {
+            margin-bottom: 6px;
+            font-weight: 800;
+            color: #0f172f;
+        }
+
+        .cta-text p {
+            margin-bottom: 0;
+            color: #6b7280;
+        }
+
+        .cta-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 26px rgba(15, 23, 43, 0.12);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+
+        .gallery-item::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(15, 23, 43, 0.35));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item span {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            background: rgba(15, 23, 43, 0.75);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            z-index: 1;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        .faq-section .accordion-item {
+            border: 0;
+            border-radius: 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .testimonial-faq-shell {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .faq-section .accordion-button {
+            background: #ffffff;
+            color: #17253f;
+            font-weight: 700;
+            font-size: clamp(1rem, 2vw, 1.08rem);
+            padding: 22px 22px;
+            border-radius: 22px !important;
+            box-shadow: none !important;
+        }
+
+        .faq-section .accordion-button:not(.collapsed) {
+            color: #0f224a;
+        }
+
+        .faq-section .accordion-button::after {
+            background-image: none;
+            content: "+";
+            width: 30px;
+            height: 30px;
+            border: 2px solid #8b8f97;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #666b75;
+            font-size: 1.35rem;
+            line-height: 1;
+            transform: none;
+            flex-shrink: 0;
+        }
+
+        /* .accordion{
     width: 980px;
     margin:0 auto;
 } */
-.faq-section .accordion-button:not(.collapsed)::after {
-    content: "-";
-}
+        .faq-section .accordion-button:not(.collapsed)::after {
+            content: "-";
+        }
 
-.faq-section .accordion-body {
-    padding: 0 22px 20px;
-    color: #5b6980;
-    line-height: 1.75;
-    font-size: 0.98rem;
-}
+        .faq-section .accordion-body {
+            padding: 0 22px 20px;
+            color: #5b6980;
+            line-height: 1.75;
+            font-size: 0.98rem;
+        }
 
-.faq-section .accordion-button:focus {
-    box-shadow: none;
-    border-color: transparent;
-}
+        .faq-section .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
 
-.contact-strip {
-    background: linear-gradient(120deg, #0f172f, #1a2a4a);
-    border-radius: 24px;
-    padding: 24px 22px;
-    color: #ffffff;
-    box-shadow: 0 18px 34px rgba(15, 23, 43, 0.2);
-}
+        .contact-strip {
+            background: linear-gradient(120deg, #0f172f, #1a2a4a);
+            border-radius: 24px;
+            padding: 24px 22px;
+            color: #ffffff;
+            box-shadow: 0 18px 34px rgba(15, 23, 43, 0.2);
+        }
 
-.contact-strip-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
+        .contact-strip-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-.contact-strip-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.12);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #fea116;
-    font-size: 1.1rem;
-}
+        .contact-strip-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fea116;
+            font-size: 1.1rem;
+        }
 
-.contact-strip h6 {
-    margin: 0 0 4px;
-    font-weight: 700;
-    color: #ffffff;
-}
+        .contact-strip h6 {
+            margin: 0 0 4px;
+            font-weight: 700;
+            color: #ffffff;
+        }
 
-.contact-strip p,
-.contact-strip a {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
-}
+        .contact-strip p,
+        .contact-strip a {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+        }
 
-.contact-strip a:hover {
-    color: #fea116;
-}
+        .contact-strip a:hover {
+            color: #fea116;
+        }
 
-@media (max-width: 767.98px) {
-    .testimonial-subhead {
-        font-size: 1rem;
-        padding: 0 60px;
-    }
+        @media (max-width: 767.98px) {
+            .testimonial-subhead {
+                font-size: 1rem;
+                padding: 0 60px;
+            }
 
-    .testimonial-subhead::before,
-    .testimonial-subhead::after {
-        width: 40px;
-    }
+            .testimonial-subhead::before,
+            .testimonial-subhead::after {
+                width: 40px;
+            }
 
-    .customer-say-card {
-        padding: 28px 20px 24px;
-    }
+            .customer-say-card {
+                padding: 28px 20px 24px;
+            }
 
-    .customer-say-avatars {
-        height: 190px;
-    }
+            .customer-say-avatars {
+                height: 190px;
+            }
 
-    .avatar-4,
-    .avatar-5 {
-        display: none;
-    }
+            .avatar-4,
+            .avatar-5 {
+                display: none;
+            }
 
-    .cta-card {
-        text-align: center;
-    }
+            .cta-card {
+                text-align: center;
+            }
 
-    .cta-actions {
-        justify-content: center;
-    }
+            .cta-actions {
+                justify-content: center;
+            }
 
-    .gallery-item img {
-        height: 190px;
-    }
+            .gallery-item img {
+                height: 190px;
+            }
 
-    .contact-strip-item {
-        justify-content: center;
-        text-align: center;
-    }
-}
+            .contact-strip-item {
+                justify-content: center;
+                text-align: center;
+            }
+        }
 
-@media (max-width: 575.98px) {
-    .testimonial-subhead {
-        padding: 0 44px;
-    }
+        @media (max-width: 575.98px) {
+            .testimonial-subhead {
+                padding: 0 44px;
+            }
 
-    .testimonial-subhead::before,
-    .testimonial-subhead::after {
-        width: 28px;
-    }
+            .testimonial-subhead::before,
+            .testimonial-subhead::after {
+                width: 28px;
+            }
 
-    .customer-say-avatars {
-        height: 170px;
-    }
+            .customer-say-avatars {
+                height: 170px;
+            }
 
-    .avatar-1 { width: 64px; height: 64px; }
-    .avatar-2 { width: 54px; height: 54px; }
-    .avatar-3 { width: 74px; height: 74px; }
-    .avatar-6,
-    .avatar-7 {
-        display: none;
-    }
+            .avatar-1 {
+                width: 64px;
+                height: 64px;
+            }
 
-    .gallery-item img {
-        height: 160px;
-    }
+            .avatar-2 {
+                width: 54px;
+                height: 54px;
+            }
 
-    .testimonial-faq-shell {
-        padding: 0 12px;
-    }
-}
+            .avatar-3 {
+                width: 74px;
+                height: 74px;
+            }
+
+            .avatar-6,
+            .avatar-7 {
+                display: none;
+            }
+
+            .gallery-item img {
+                height: 160px;
+            }
+
+            .testimonial-faq-shell {
+                padding: 0 12px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-</div>
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        </div>
         <!-- Spinner End -->
 
         <div class="container-xxl position-relative p-0">
@@ -615,21 +710,24 @@ include('config/blocked-check.php');  ?>
                         <div class="testimonial-feature">
                             <span class="feature-icon"><i class="fa fa-user"></i></span>
                             <h5 class="testimonial-subhead">Students</h5>
-                            <p>Students love the quick ordering, affordable combos, and the taste they can count on between classes.</p>
+                            <p>Students love the quick ordering, affordable combos, and the taste they can count on
+                                between classes.</p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="testimonial-feature">
                             <span class="feature-icon"><i class="fa fa-briefcase"></i></span>
                             <h5 class="testimonial-subhead">Business</h5>
-                            <p>Teams appreciate the reliable catering, clean packaging, and on-time delivery for busy workdays.</p>
+                            <p>Teams appreciate the reliable catering, clean packaging, and on-time delivery for busy
+                                workdays.</p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="testimonial-feature">
                             <span class="feature-icon"><i class="fa fa-book"></i></span>
                             <h5 class="testimonial-subhead">Teachers</h5>
-                            <p>Educators highlight the consistent quality, hygienic preparation, and friendly support from staff.</p>
+                            <p>Educators highlight the consistent quality, hygienic preparation, and friendly support
+                                from staff.</p>
                         </div>
                     </div>
                 </div>
@@ -637,17 +735,25 @@ include('config/blocked-check.php');  ?>
                     <div class="customer-say-card">
                         <div class="customer-say-content">
                             <h2>What Our Customers Say</h2>
-                            <p>Real stories from happy people! See how our services and support create memorable experiences.</p>
+                            <p>Real stories from happy people! See how our services and support create memorable
+                                experiences.</p>
                             <a class="btn btn-primary py-2 px-4" href="contact.php">Book Now</a>
                         </div>
                         <div class="customer-say-avatars">
-                            <span class="avatar avatar-1 active" data-avatar="0"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-2" data-avatar="1"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-3" data-avatar="2"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-4" data-avatar="3"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-5" data-avatar="4"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-6" data-avatar="5"><img src="images/avatar1.jpeg" alt="Customer"></span>
-                            <span class="avatar avatar-7" data-avatar="6"><img src="images/avatar1.jpeg" alt="Customer"></span>
+                            <span class="avatar avatar-1 active" data-avatar="0"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-2" data-avatar="1"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-3" data-avatar="2"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-4" data-avatar="3"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-5" data-avatar="4"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-6" data-avatar="5"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
+                            <span class="avatar avatar-7" data-avatar="6"><img src="images/avatar1.jpeg"
+                                    alt="Customer"></span>
                             <span class="dot dot-1"></span>
                             <span class="dot dot-2"></span>
                             <span class="dot dot-3"></span>
@@ -655,11 +761,14 @@ include('config/blocked-check.php');  ?>
                             <span class="dot dot-5"></span>
                         </div>
                         <div class="customer-say-footer">
-                            <button class="customer-say-nav" type="button" data-direction="prev" aria-label="Previous testimonial">
+                            <button class="customer-say-nav" type="button" data-direction="prev"
+                                aria-label="Previous testimonial">
                                 <i class="fa fa-chevron-left"></i>
                             </button>
-                            <p class="customer-say-quote" aria-live="polite">This platform made my experience seamless and enjoyable. The quality of service exceeded my expectations!</p>
-                            <button class="customer-say-nav" type="button" data-direction="next" aria-label="Next testimonial">
+                            <p class="customer-say-quote" aria-live="polite">This platform made my experience seamless
+                                and enjoyable. The quality of service exceeded my expectations!</p>
+                            <button class="customer-say-nav" type="button" data-direction="next"
+                                aria-label="Next testimonial">
                                 <i class="fa fa-chevron-right"></i>
                             </button>
                         </div>
@@ -711,7 +820,7 @@ include('config/blocked-check.php');  ?>
                     <div class="row g-3">
                         <div class="col-6 col-lg-4">
                             <div class="gallery-item wow fadeInUp" data-wow-delay="0.1s">
-                                <img src="images/food/Food-Name-1242.jpg" alt="Signature Meals">
+                                <img src="images/food/Bengali.png" alt="Signature Meals">
                                 <span>Signature Meals</span>
                             </div>
                         </div>
@@ -746,7 +855,7 @@ include('config/blocked-check.php');  ?>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="section-heading mt-5">
                     <h5 class="testimonial-kicker">Customer</h5>
@@ -755,9 +864,11 @@ include('config/blocked-check.php');  ?>
                 <div class="owl-carousel testimonial-carousel mt-5">
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>First of all, I love their interior design.Their services was so nice & amazing .And also i like their food so much</p>
+                        <p>First of all, I love their interior design.Their services was so nice & amazing .And also i
+                            like their food so much</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg" style="width: 50px; height: 50px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg"
+                                style="width: 50px; height: 50px;">
                             <div class="ps-3">
                                 <h5 class="mb-1">Rasel Hossain</h5>
                                 <small>Student</small>
@@ -766,9 +877,11 @@ include('config/blocked-check.php');  ?>
                     </div>
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>I was quite amazed by their unique concept. Hats off to Pasar-kita.com and their whole team.</p>
+                        <p>I was quite amazed by their unique concept. Hats off to Pasar-kita.com and their whole team.
+                        </p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg" style="width: 50px; height: 50px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg"
+                                style="width: 50px; height: 50px;">
                             <div class="ps-3">
                                 <h5 class="mb-1">Ashraf Alam</h5>
                                 <small>Businessman</small>
@@ -779,7 +892,8 @@ include('config/blocked-check.php');  ?>
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
                         <p>Nice environment also provide healthy and tasty food.Like it very much</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg" style="width: 50px; height: 50px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg"
+                                style="width: 50px; height: 50px;">
                             <div class="ps-3">
                                 <h5 class="mb-1">Sumon Mollah</h5>
                                 <small>Teacher</small>
@@ -790,7 +904,8 @@ include('config/blocked-check.php');  ?>
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
                         <p>WOW!! Exceptional concept of Pasar-kita.com.Food quality is good, keep it up.</p>
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg" style="width: 50px; height: 50px;">
+                            <img class="img-fluid flex-shrink-0 rounded-circle" src="images/avatar1.jpeg"
+                                style="width: 50px; height: 50px;">
                             <div class="ps-3">
                                 <h5 class="mb-1">Labony Haque</h5>
                                 <small>Student</small>
@@ -817,56 +932,72 @@ include('config/blocked-check.php');  ?>
                         <p>Everything you need to know before your next order.</p>
                     </div>
                     <div class="testimonial-faq-shell">
-                    <div class="accordion" id="testimonialFaq">
-                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.1s">
-                            <h2 class="accordion-header" id="faqOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
-                                    How do I place an order?
-                                </button>
-                            </h2>
-                            <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqOne" data-bs-parent="#testimonialFaq">
-                                <div class="accordion-body">
-                                    Choose a restaurant, pick your dishes, and confirm delivery details. You will receive updates by SMS or email.
+                        <div class="accordion" id="testimonialFaq">
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.1s">
+                                <h2 class="accordion-header" id="faqOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faqCollapseOne" aria-expanded="true"
+                                        aria-controls="faqCollapseOne">
+                                        How do I place an order?
+                                    </button>
+                                </h2>
+                                <div id="faqCollapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="faqOne" data-bs-parent="#testimonialFaq">
+                                    <div class="accordion-body">
+                                        Choose a restaurant, pick your dishes, and confirm delivery details. You will
+                                        receive updates by SMS or email.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.2s">
+                                <h2 class="accordion-header" id="faqTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faqCollapseTwo" aria-expanded="false"
+                                        aria-controls="faqCollapseTwo">
+                                        Can I schedule orders in advance?
+                                    </button>
+                                </h2>
+                                <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo"
+                                    data-bs-parent="#testimonialFaq">
+                                    <div class="accordion-body">
+                                        Yes, schedule deliveries for lunch meetings, events, or daily meal plans from
+                                        your favorite partners.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.3s">
+                                <h2 class="accordion-header" id="faqThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faqCollapseThree" aria-expanded="false"
+                                        aria-controls="faqCollapseThree">
+                                        What payment methods are accepted?
+                                    </button>
+                                </h2>
+                                <div id="faqCollapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="faqThree" data-bs-parent="#testimonialFaq">
+                                    <div class="accordion-body">
+                                        We accept online payments, UPI, and cash on delivery depending on the restaurant
+                                        and location.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item wow fadeInUp" data-wow-delay="0.4s">
+                                <h2 class="accordion-header" id="faqFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#faqCollapseFour" aria-expanded="false"
+                                        aria-controls="faqCollapseFour">
+                                        How do I contact support?
+                                    </button>
+                                </h2>
+                                <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour"
+                                    data-bs-parent="#testimonialFaq">
+                                    <div class="accordion-body">
+                                        Reach out anytime via the contact form, email, or phone. Our support team
+                                        responds quickly.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.2s">
-                            <h2 class="accordion-header" id="faqTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
-                                    Can I schedule orders in advance?
-                                </button>
-                            </h2>
-                            <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqTwo" data-bs-parent="#testimonialFaq">
-                                <div class="accordion-body">
-                                    Yes, schedule deliveries for lunch meetings, events, or daily meal plans from your favorite partners.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.3s">
-                            <h2 class="accordion-header" id="faqThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
-                                    What payment methods are accepted?
-                                </button>
-                            </h2>
-                            <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqThree" data-bs-parent="#testimonialFaq">
-                                <div class="accordion-body">
-                                    We accept online payments, UPI, and cash on delivery depending on the restaurant and location.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.4s">
-                            <h2 class="accordion-header" id="faqFour">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
-                                    How do I contact support?
-                                </button>
-                            </h2>
-                            <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqFour" data-bs-parent="#testimonialFaq">
-                                <div class="accordion-body">
-                                    Reach out anytime via the contact form, email, or phone. Our support team responds quickly.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
                 <div class="contact-strip mt-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -903,13 +1034,13 @@ include('config/blocked-check.php');  ?>
             </div>
         </div>
         <!-- Testimonial End -->
-<?php include('chatbot.php'); ?>
+        <?php include('chatbot.php'); ?>
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries --> 
+    <!-- JavaScript Libraries -->
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -1019,8 +1150,7 @@ include('config/blocked-check.php');  ?>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-<?php include('site-footer.php'); ?>
+    <?php include('site-footer.php'); ?>
 </body>
 
 </html>
-
