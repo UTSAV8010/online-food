@@ -130,4 +130,8 @@ $mailFile = __DIR__ . '/mail.php';
 
 if (file_exists($mailFile)) {
     require_once $mailFile;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7401c6f (Fix PHPMailer using Composer)

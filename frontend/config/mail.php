@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+<<<<<<< HEAD
 /*
 |--------------------------------------------------------------------------
 | AUTOLOAD (IMPORTANT)
@@ -13,6 +14,12 @@ require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
 require_once __DIR__ . '/../PHPMailer/src/Exception.php';
 // use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\Exception;
+=======
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+>>>>>>> 7401c6f (Fix PHPMailer using Composer)
 
 /*
 |--------------------------------------------------------------------------

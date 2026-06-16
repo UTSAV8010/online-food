@@ -819,9 +819,9 @@
                                 <p class="restro-address mb-3"><?php echo $address; ?></p>
                                 <div class="restro-btn-group">
                                     <a href="<?php echo SITEURL; ?>restro-menu.php?restro_name=<?php echo urlencode($restro_name); ?>"
-                                       class="restro-btn menu">View Menu</a>
+                                       class="catalog-btn menu">View Menu</a>
                                     <a href="<?php echo SITEURL; ?>review-restro.php?restro_name=<?php echo urlencode($restro_name); ?>"
-                                       class="restro-btn review">Give Review</a>
+                                       class="catalog-btn review">Give Review</a>
                                 </div>
                             </div>
                         </div>
