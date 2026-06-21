@@ -2,24 +2,17 @@
 
 declare(strict_types=1);
 
-<<<<<<< HEAD
 /*
 |--------------------------------------------------------------------------
 | AUTOLOAD (IMPORTANT)
 |--------------------------------------------------------------------------
 | Required for PHPMailer
 */
-require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
-require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
-require_once __DIR__ . '/../PHPMailer/src/Exception.php';
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
-=======
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
->>>>>>> 7401c6f (Fix PHPMailer using Composer)
 
 /*
 |--------------------------------------------------------------------------
@@ -75,27 +68,46 @@ if (!function_exists('app_send_smtp_mail')) {
             $mail->Password   = MAIL_PASSWORD;
             $mail->Port       = MAIL_PORT;
 
-            $mail->SMTPSecure = (MAIL_ENCRYPTION === 'ssl')
-                ? PHPMailer::ENCRYPTION_SMTPS
-                : PHPMailer::ENCRYPTION_STARTTLS;
+            $encryption = defined('MAIL_ENCRYPTION')
+    ? MAIL_ENCRYPTION
+    : 'tls';
 
-            $mail->Timeout = MAIL_TIMEOUT ?? 15;
-
-            $mail->SMTPOptions = [
-                'ssl' => [
-                    'verify_peer'       => false,
-                    'verify_peer_name'  => false,
-                    'allow_self_signed' => true,
-                ]
-            ];
+$mail->SMTPSecure = ($encryption === 'ssl')
+    ? PHPMailer::ENCRYPTION_SMTPS
+    : PHPMailer::ENCRYPTION_STARTTLS;
+           $mail->Timeout = defined('MAIL_TIMEOUT')
+    ? MAIL_TIMEOUT
+    : 15;
+           if (
+    !defined('MAIL_VERIFY_PEER')
+    || MAIL_VERIFY_PEER === false
+) {
+    $mail->SMTPOptions = [
+        'ssl' => [
+            'verify_peer'       => false,
+            'verify_peer_name'  => false,
+            'allow_self_signed' => true,
+        ]
+    ];
+}
 
             /*
             |--------------------------------------------------------------------------
             | SENDER INFO
             |--------------------------------------------------------------------------
             */
-            $mail->setFrom(MAIL_FROM_EMAIL, MAIL_FROM_NAME);
-            $mail->addReplyTo(MAIL_REPLY_TO_EMAIL ?: MAIL_FROM_EMAIL, MAIL_FROM_NAME);
+            $mail->setFrom(
+    MAIL_FROM_EMAIL,
+    defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : 'Pasar-kita'
+);
+            $mail->addReplyTo(
+    defined('MAIL_REPLY_TO_EMAIL')
+        ? MAIL_REPLY_TO_EMAIL
+        : MAIL_FROM_EMAIL,
+    defined('MAIL_FROM_NAME')
+        ? MAIL_FROM_NAME
+        : 'Pasar-kita'
+);
             $mail->addAddress($toEmail);
 
             /*
@@ -120,13 +132,16 @@ if (!function_exists('app_send_smtp_mail')) {
             | CONTENT
             |--------------------------------------------------------------------------
             */
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body    = $htmlBody;
-            $mail->AltBody = $textBody;
+          $mail->isHTML(true);
+$mail->Subject = $subject;
 
-            $mail->send();
+$mail->Body = $htmlBody;
+$mail->AltBody = $textBody;
 
+/* Disable SMTP debug output */
+$mail->SMTPDebug = 0;
+
+$mail->send();
             return [
                 'success' => true,
                 'error' => ''
@@ -155,12 +170,16 @@ if (!function_exists('app_send_branded_otp_email')) {
 
         $defaults = [
             'subject'       => 'OTP Verification',
-            'eyebrow'       => MAIL_FROM_NAME,
+            'eyebrow' => defined('MAIL_FROM_NAME')
+    ? MAIL_FROM_NAME
+    : 'Pasar-kita',
             'preheader'     => 'Secure verification',
             'headline'      => 'Your OTP Code',
             'intro'         => 'Use this OTP to continue.',
             'code_label'    => 'Verification Code',
-            'expires_label' => 'Valid for ' . (APP_OTP_TTL_SECONDS ?? 300) . ' sec',
+            'expires_label' => 'Valid for '
+    . (defined('APP_OTP_TTL_SECONDS') ? APP_OTP_TTL_SECONDS : 300)
+    . ' sec',
             'body_note'     => 'Never share this code.',
             'reason_title'  => 'Why you received this',
             'reason_body'   => 'You requested verification.',

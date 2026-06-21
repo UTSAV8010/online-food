@@ -565,7 +565,7 @@
             box-shadow: 0 0 0 transparent !important;
         }
 
-    </style>
+    
 
         .restro-btn {
             flex: 1;
@@ -603,7 +603,25 @@
                 grid-template-columns: 1fr;
             }
         }
+.menu {
+    background: rgb(230, 149, 0) ;
+}
 
+.review {
+    background: rgb(23, 141, 81) ;
+}
+
+.catalog-btn {
+    text-decoration: none ;
+    flex: 1 1 0% ;
+    color: #fff ;
+    text-align: center ;
+    padding: 10px 0 ;
+    border-radius: 8px ;
+    font-weight: 600 ;
+    font-size: 0.85rem ;
+    text-transform: uppercase ;
+}
     </style>
 </head>
 

@@ -17,42 +17,124 @@ if (session_status() === PHP_SESSION_NONE) {
 |--------------------------------------------------------------------------
 */
 
-define('SITEURL', 'https://online-food-ordering-tn7s.onrender.com/');
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'] ?? '';
+
+if ($host) {
+    $script = $_SERVER['SCRIPT_NAME'] ?? $_SERVER['PHP_SELF'] ?? '';
+    $path = str_replace('\\', '/', dirname($script));
+    
+    $pos = -1;
+    foreach (['/admin', '/restro', '/delivery-boy', '/frontend'] as $folder) {
+        $p = stripos($path, $folder);
+        if ($p !== false && ($pos === -1 || $p < $pos)) {
+            $pos = $p;
+        }
+    }
+    
+    if ($pos !== -1) {
+        $path = substr($path, 0, $pos);
+    }
+    
+    $path = rtrim($path, '/') . '/';
+    $dynamic_site_url = $protocol . $host . $path;
+} else {
+    $dynamic_site_url = 'https://online-food-ordering-tn7s.onrender.com/';
+}
+
+$base_url = getenv('SITE_URL') ?: (getenv('SITEURL') ?: $dynamic_site_url);
+
+if (substr($base_url, -1) !== '/') {
+    $base_url .= '/';
+}
+
+$current_script = $_SERVER['SCRIPT_NAME'] ?? $_SERVER['PHP_SELF'] ?? '';
+
+if (strpos($current_script, '/admin/') !== false) {
+    $base_url .= 'admin/';
+} elseif (strpos($current_script, '/restro/') !== false) {
+    $base_url .= 'restro/';
+} elseif (strpos($current_script, '/delivery-boy/') !== false) {
+    $base_url .= 'delivery-boy/';
+}
+
+define('SITEURL', $base_url);
 
 /*
 |--------------------------------------------------------------------------
-| DATABASE CONFIGURATION (RAILWAY)
+| DATABASE CONFIGURATION (DYNAMICAL VIA ENVIRONMENT VARIABLES OR HARDCODED FALLBACKS)
 |--------------------------------------------------------------------------
 */
 
-define('LOCALHOST', 'mainline.proxy.rlwy.net');
-define('DB_PORT', 22086);
+// Set default fallback values
+$db_host = 'mainline.proxy.rlwy.net';
+$db_port = 22086;
+$db_user = 'root';
+$db_pass = 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC';
+$db_name = 'railway';
 
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC');
-define('DB_NAME', 'railway');
+// Check for single connection URL variable (common in Render/Railway)
+$mysql_url = getenv('MYSQL_URL') ?: getenv('DATABASE_URL');
+if ($mysql_url) {
+    $parsed_url = parse_url($mysql_url);
+    if ($parsed_url) {
+        if (isset($parsed_url['host'])) {
+            $db_host = $parsed_url['host'];
+        }
+        if (isset($parsed_url['port'])) {
+            $db_port = intval($parsed_url['port']);
+        }
+        if (isset($parsed_url['user'])) {
+            $db_user = $parsed_url['user'];
+        }
+        if (isset($parsed_url['pass'])) {
+            $db_pass = $parsed_url['pass'];
+        }
+        if (isset($parsed_url['path'])) {
+            $db_name = ltrim($parsed_url['path'], '/');
+        }
+    }
+} else {
+    // Check individual environment variables
+    $db_host = getenv('DB_HOST') ?: (getenv('MYSQLHOST') ?: $db_host);
+    $db_port = getenv('DB_PORT') ?: (getenv('MYSQLPORT') ?: $db_port);
+    $db_user = getenv('DB_USERNAME') ?: (getenv('MYSQLUSER') ?: $db_user);
+    
+    // getenv returns false if the variable is not set
+    $env_pass = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : getenv('MYSQLPASSWORD');
+    if ($env_pass !== false && $env_pass !== null) {
+        $db_pass = $env_pass;
+    }
+    
+    $db_name = getenv('DB_NAME') ?: (getenv('MYSQLDATABASE') ?: $db_name);
+}
+
+define('LOCALHOST', $db_host);
+define('DB_PORT', intval($db_port));
+define('DB_USERNAME', $db_user);
+define('DB_PASSWORD', $db_pass);
+define('DB_NAME', $db_name);
 
 /*
 |--------------------------------------------------------------------------
 | SMTP CONFIGURATION
 |--------------------------------------------------------------------------
-|
-| Gmail SMTP may timeout on Render using raw sockets.
-| Keep these values if you still want to use mail.php.
-|
 */
 
-define('MAIL_HOST', 'smtp.gmail.com');
-define('MAIL_PORT', 587);
+define('MAIL_HOST', 'smtp-relay.brevo.com');
+define('MAIL_PORT', 2525);
 define('MAIL_ENCRYPTION', 'tls');
+define('MAIL_USERNAME', 'aecb2c001@smtp-brevo.com');
 
-define('MAIL_USERNAME', 'utsavsarvaliya27@gmail.com');
-define('MAIL_PASSWORD', 'vedmjmfeekiwpdmw');
+define(
+    'MAIL_PASSWORD',
+    'xsmtpsib-48b53487c091eca8966041257a7a984faec9134db389c6c6068a5387e1b5c4bc-MhABUaZcqgK9ChZS'
+);
 
-define('MAIL_FROM_EMAIL', MAIL_USERNAME);
+define('MAIL_FROM_EMAIL', 'utsavsarvaliya27@gmail.com');
 define('MAIL_FROM_NAME', 'Pasar-kita');
 
-define('MAIL_REPLY_TO_EMAIL', MAIL_USERNAME);
+define('MAIL_REPLY_TO_EMAIL', 'utsavsarvaliya27@gmail.com');
 
 define('MAIL_TIMEOUT', 30);
 define('MAIL_VERIFY_PEER', false);
@@ -90,18 +172,23 @@ define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
 |--------------------------------------------------------------------------
 */
 
-$conn = mysqli_connect(
-    LOCALHOST,
-    DB_USERNAME,
-    DB_PASSWORD,
-    DB_NAME,
-    DB_PORT
-);
+try {
+    $conn = mysqli_connect(
+        LOCALHOST,
+        DB_USERNAME,
+        DB_PASSWORD,
+        DB_NAME,
+        DB_PORT
+    );
+} catch (Throwable $e) {
+    $conn = false;
+    $connect_error = $e->getMessage();
+}
 
 if (!$conn) {
     die(
         'Database Connection Failed: '
-        . mysqli_connect_error()
+        . ($connect_error ?? mysqli_connect_error())
     );
 }
 
@@ -130,8 +217,4 @@ $mailFile = __DIR__ . '/mail.php';
 
 if (file_exists($mailFile)) {
     require_once $mailFile;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 7401c6f (Fix PHPMailer using Composer)
