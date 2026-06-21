@@ -172,17 +172,20 @@ define('GOOGLE_MAPS_API_KEY', 'AIzaSyDYSBlQ9HF7MqndLVihj3QTJKh6tHbBOUQ');
 |--------------------------------------------------------------------------
 */
 
-try {
-    $conn = mysqli_connect(
-        LOCALHOST,
-        DB_USERNAME,
-        DB_PASSWORD,
-        DB_NAME,
-        DB_PORT
-    );
-} catch (Throwable $e) {
+$conn = mysqli_init();
+if ($conn) {
+    mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 5);
+    try {
+        if (!@mysqli_real_connect($conn, LOCALHOST, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT)) {
+            $conn = false;
+        }
+    } catch (Throwable $e) {
+        $conn = false;
+        $connect_error = $e->getMessage();
+    }
+} else {
     $conn = false;
-    $connect_error = $e->getMessage();
+    $connect_error = "Failed to initialize mysqli";
 }
 
 if (!$conn) {
