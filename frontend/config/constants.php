@@ -67,10 +67,10 @@ define('SITEURL', $base_url);
 */
 
 // Set default fallback values
-$db_host = 'mainline.proxy.rlwy.net';
-$db_port = 22086;
+$db_host = 'reseau.proxy.rlwy.net';
+$db_port = 16444;
 $db_user = 'root';
-$db_pass = 'dYfEiQBLkcHAGCLmVWRRsREehaxXHorC';
+$db_pass = 'lZfMAPxhtYCTVmYEjdDZfGAUGTRSYnOd';
 $db_name = 'railway';
 
 // Check for single connection URL variable (common in Render/Railway)
