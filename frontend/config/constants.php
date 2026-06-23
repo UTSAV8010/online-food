@@ -17,10 +17,21 @@ if (session_status() === PHP_SESSION_NONE) {
 |--------------------------------------------------------------------------
 */
 
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$protocol = "http://";
+if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+    $protocol = "https://";
+}
+
 $host = $_SERVER['HTTP_HOST'] ?? '';
 
 if ($host) {
+    // Strip port on production environments (e.g., Render's internal port :10000)
+    if (stripos($host, 'localhost') === false && stripos($host, '127.0.0.1') === false) {
+        $host_parts = explode(':', $host);
+        $host = $host_parts[0];
+    }
+    
     $script = $_SERVER['SCRIPT_NAME'] ?? $_SERVER['PHP_SELF'] ?? '';
     $path = str_replace('\\', '/', dirname($script));
     

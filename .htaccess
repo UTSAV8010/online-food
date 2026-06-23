@@ -1,28 +1,36 @@
 RewriteEngine On
 ErrorDocument 404 /404.php
 
+# Detect protocol (HTTP vs HTTPS behind reverse proxy)
+RewriteCond %{HTTP:X-Forwarded-Proto} =https [OR]
+RewriteCond %{HTTPS} on
+RewriteRule ^ - [E=PROTO:https]
+
+RewriteCond %{ENV:PROTO} ^$
+RewriteRule ^ - [E=PROTO:http]
+
 # Redirect old restro URLs
-RewriteRule ^(?:frontend/)?restro(?:\.php)?/?$ /restaurant [R=302,L,NC,QSA]
+RewriteRule ^(?:frontend/)?restro(?:\.php)?/?$ %{ENV:PROTO}://%{HTTP_HOST}/restaurant [R=302,L,NC,QSA]
 
 # Redirect frontend URLs to clean URLs
 RewriteCond %{THE_REQUEST} \s+/frontend/?(?:\s|\?) [NC]
-RewriteRule ^frontend/?$ / [R=302,L,NC]
+RewriteRule ^frontend/?$ %{ENV:PROTO}://%{HTTP_HOST}/ [R=302,L,NC]
 
 RewriteCond %{THE_REQUEST} \s+/frontend/([^\s?]+?)\.php(?:\s|\?) [NC]
-RewriteRule ^frontend/(.+)\.php$ /$1 [R=302,L,NC,QSA]
+RewriteRule ^frontend/(.+)\.php$ %{ENV:PROTO}://%{HTTP_HOST}/$1 [R=302,L,NC,QSA]
 
 # Redirect root .php URLs to extensionless URLs
 RewriteCond %{THE_REQUEST} \s+/index\.php(?:\s|\?) [NC]
-RewriteRule ^index\.php$ / [R=302,L,NC]
+RewriteRule ^index\.php$ %{ENV:PROTO}://%{HTTP_HOST}/ [R=302,L,NC]
 
 RewriteCond %{THE_REQUEST} \s+/([^/\s?]+)\.php(?:\s|\?) [NC]
 RewriteCond %{DOCUMENT_ROOT}/frontend/%1.php -f
-RewriteRule ^([^/]+)\.php$ /$1 [R=302,L,NC,QSA]
+RewriteRule ^([^/]+)\.php$ %{ENV:PROTO}://%{HTTP_HOST}/$1 [R=302,L,NC,QSA]
 
 # Redirect panel .php URLs
 RewriteCond %{THE_REQUEST} \s+/(admin|restro|delivery-boy)/([^/\s?]+)\.php(?:\s|\?) [NC]
 RewriteCond %{DOCUMENT_ROOT}/%1/%2.php -f
-RewriteRule ^(admin|restro|delivery-boy)/([^/]+)\.php$ /$1/$2 [R=302,L,NC,QSA]
+RewriteRule ^(admin|restro|delivery-boy)/([^/]+)\.php$ %{ENV:PROTO}://%{HTTP_HOST}/$1/$2 [R=302,L,NC,QSA]
 
 # Reject invalid URLs
 RewriteRule ^.+\.php/.*$ - [R=404,L,NC]

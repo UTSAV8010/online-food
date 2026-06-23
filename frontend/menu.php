@@ -331,7 +331,26 @@
                         <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                             <div class="menu-card">
                                 <div class="img-wrapper">
-                                    <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>" class="card-img-top" alt="...">
+                                    <?php
+                                        $food_image_file = __DIR__ . '/../images/food/' . $image_name;
+                                        $has_food_image = ($image_name !== '' && is_file($food_image_file));
+                                        if ($has_food_image) {
+                                            $img_src = SITEURL . "images/food/" . $image_name;
+                                        } else {
+                                            if (stripos($title, 'pizza') !== false) {
+                                                $img_src = SITEURL . "images/pizza.jpg";
+                                            } elseif (stripos($title, 'burger') !== false) {
+                                                $img_src = SITEURL . "images/burger.jpg";
+                                            } elseif (stripos($title, 'momo') !== false) {
+                                                $img_src = SITEURL . "images/momo.jpg";
+                                            } elseif (stripos($title, 'chicken') !== false) {
+                                                $img_src = SITEURL . "images/ChickenCurry.jpg";
+                                            } else {
+                                                $img_src = SITEURL . "images/bg_homepage.jpg";
+                                            }
+                                        }
+                                    ?>
+                                    <img src="<?php echo $img_src; ?>" class="card-img-top" alt="<?php echo $title; ?>">
                                     <div class="cart-icon"><i class="fa fa-shopping-basket"></i></div>
                                 </div>
                                 <div class="card-body">
