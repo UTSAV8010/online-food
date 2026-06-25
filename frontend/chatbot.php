@@ -885,7 +885,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
 <div id="rmChatbotRoot" class="rm-chatbot-root">
     <!-- Floating Launcher -->
     <button id="rmChatToggle" class="rm-chatbot-toggle" type="button" aria-label="Open support chat">
-        <i class="fas fa-robot"></i>
+        <i class="fas fa-utensils"></i>
         <span class="rm-chatbot-toggle-badge">AI</span>
         <span class="rm-chatbot-toggle-hint">👋 Chat with us!</span>
     </button>
@@ -1200,7 +1200,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
 
         const avatar = document.createElement("div");
         avatar.className = "rm-chatbot-msg-avatar";
-        avatar.innerHTML = type === 'bot' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
+        avatar.innerHTML = type === 'bot' ? '<i class="fas fa-utensils"></i>' : '<i class="fas fa-user"></i>';
         msgRow.appendChild(avatar);
 
         const msgBubble = document.createElement("div");
@@ -1248,7 +1248,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
         
         const avatar = document.createElement("div");
         avatar.className = "rm-chatbot-msg-avatar";
-        avatar.innerHTML = '<i class="fas fa-robot"></i>';
+        avatar.innerHTML = '<i class="fas fa-utensils"></i>';
         row.appendChild(avatar);
 
         const bubble = document.createElement("div");
