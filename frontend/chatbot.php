@@ -1414,7 +1414,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
         .then(data => {
             loader.remove();
             if (data.success && data.foods.length > 0) {
-                appendMessage("bot", `Here are some popular picks in **${categoryName}**:`, true, false);
+                appendMessage("bot", `Here are some popular picks in **${categoryName}**:`, true, true);
                 
                 const card = document.createElement("div");
                 card.className = "rm-chatbot-rich-card";
@@ -1506,7 +1506,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
         .then(data => {
             loader.remove();
             if (data.success && data.foods.length > 0) {
-                appendMessage("bot", `I found matching items for "${query}":`, true, false);
+                appendMessage("bot", `I found matching items for "${query}":`, true, true);
                 
                 const card = document.createElement("div");
                 card.className = "rm-chatbot-rich-card";
@@ -1597,7 +1597,7 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
         .then(data => {
             loader.remove();
             if (data.success && data.coupons.length > 0) {
-                appendMessage("bot", "Active promotion offers you can copy and use at checkout:", true, false);
+                appendMessage("bot", "Active promotion offers you can copy and use at checkout:", true, true);
                 
                 const card = document.createElement("div");
                 card.className = "rm-chatbot-rich-card";
@@ -1965,6 +1965,20 @@ $chatbotUser = isset($_SESSION['user']) && $_SESSION['user'] !== '' ? $_SESSION[
         toggle.style.display = "none";
         playSound('received');
         setTimeout(() => input.focus(), 80);
+
+        // Speak the last bot message (like the welcome message) if voice narration is active
+        if (voiceEnabled) {
+            const botMessages = body.querySelectorAll(".rm-chatbot-msg.bot");
+            if (botMessages.length > 0) {
+                const lastBotMsg = botMessages[botMessages.length - 1];
+                let textToSpeak = lastBotMsg.innerText || lastBotMsg.textContent;
+                const speakBtn = lastBotMsg.querySelector(".rm-chatbot-read-speak-btn");
+                if (speakBtn) {
+                    textToSpeak = textToSpeak.replace(speakBtn.innerText || speakBtn.textContent, "").trim();
+                }
+                speakText(textToSpeak);
+            }
+        }
     }
 
     // Close panel
